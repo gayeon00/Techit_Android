@@ -54,9 +54,28 @@ class MainActivity : AppCompatActivity() {
                 for(student in students){
                     textView6.append("${student.toString()}\n")
                 }
+
+                textView6.append(getTotalKorScore(students))
+                textView6.append(getAvgKorScore(students))
             }
 
         }
+    }
+
+    private fun getAvgKorScore(students: MutableList<Student>): String {
+        var korTotal = 0
+        for(student in students){
+            korTotal+=student.korScore
+        }
+        return "국어 평균 : ${korTotal/students.size}\n"
+    }
+
+    private fun getTotalKorScore(students: MutableList<Student>): String {
+        var korTotal = 0
+        for(student in students){
+            korTotal+=student.korScore
+        }
+        return "국어 총점 : $korTotal\n"
     }
 }
 
