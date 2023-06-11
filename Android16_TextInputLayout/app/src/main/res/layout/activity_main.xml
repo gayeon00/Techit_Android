@@ -21,10 +21,15 @@
         app:counterMaxLength="10"
         app:helperText="인사하세용">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditText"
+
+        <EditText
+            android:id="@+id/editTextText2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="text"
+            android:text="Name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -39,4 +44,13 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:text="Name" />
 </LinearLayout>
