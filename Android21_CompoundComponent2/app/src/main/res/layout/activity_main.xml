@@ -68,6 +68,15 @@
                 android:text="ToggleButton"
                 android:textOff="Off 상태 입니다."
                 android:textOn="On 상태 입니다." />
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:showText="true"
+                android:text="스위치"
+                android:thumb="@mipmap/ic_launcher"
+                android:track="@android:drawable/bottom_bar" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
