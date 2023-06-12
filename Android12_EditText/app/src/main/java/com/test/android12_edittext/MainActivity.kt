@@ -49,7 +49,21 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 //입력 감시
-                addTextChangedListener(EditTextWatcher1())
+//                addTextChangedListener(EditTextWatcher1())
+                addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                        activityMainBinding.textView.text = "before: ${p0}"
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                        activityMainBinding.textView.text = "changed: ${p0}"
+                    }
+
+                    override fun afterTextChanged(p0: Editable?) {
+                        activityMainBinding.textView.text = "after: ${p0}"
+                    }
+
+                })
             }
 
             editTextTextMultiLine.run {
@@ -66,15 +80,22 @@ class MainActivity : AppCompatActivity() {
                     val str1 = editTextText.text.toString()
                     textView.text = str1
 
-                    //키보드 내리기
-                    //INPUT_METHOD_SERVICE -> 안드로이드 os가 관리하는 백그라운드 프로세스들 중 키보드 관련된 걸로 가져와주라
-                    val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                    if (currentFocus != null) {
-                        //currentFocus: 현재 포커스를 가지고 있는 View를 지칭할 수 있다.
-                        //flag는 신경쓰지 말고 0으로
-                        imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+//                    //키보드 내리기
+//                    //INPUT_METHOD_SERVICE -> 안드로이드 os가 관리하는 백그라운드 프로세스들 중 키보드 관련된 걸로 가져와주라
+//                    val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+//                    if (currentFocus != null) {
+//                        //currentFocus: 현재 포커스를 가지고 있는 View를 지칭할 수 있다.
+//                        //flag는 신경쓰지 말고 0으로
+//                        imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+//
+//                        //포커스 해제하기
+//                        currentFocus!!.clearFocus()
+//                    }
 
-                        //포커스 해제하기
+                    val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    if(currentFocus!=null){
+                        imm.hideSoftInputFromWindow(currentFocus!!.windowToken,0)
+
                         currentFocus!!.clearFocus()
                     }
 
