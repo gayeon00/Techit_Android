@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
             buttonPrint.setOnClickListener {
                 for(student in students){
-                    textView6.append("${student.toString()}\n")
+                    textView6.append("$student\n")
                 }
 
                 textView6.append(getTotalKorScore(students))
