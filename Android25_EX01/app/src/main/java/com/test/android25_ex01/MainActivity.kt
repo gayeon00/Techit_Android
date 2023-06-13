@@ -3,6 +3,8 @@ package com.test.android25_ex01
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import com.test.android25_ex01.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -44,6 +46,22 @@ class MainActivity : AppCompatActivity() {
                 editTextMovieTitle.requestFocus()
                 true
             }
+
+            //seekBar 움직일 때 가격 얼만지 표시
+            seekBar.setOnSeekBarChangeListener(object: OnSeekBarChangeListener{
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    textView3.text = "요금 : ${p1+5000}원"
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+//                    TODO("Not yet implemented")
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+//                    TODO("Not yet implemented")
+                }
+
+            })
 
             buttonPrintMovieInfo.setOnClickListener {
 
