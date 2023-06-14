@@ -3,14 +3,13 @@ package com.test.android32_ex01
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
 import android.widget.SimpleAdapter
 import com.test.android32_ex01.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     lateinit var activityMainBinding: ActivityMainBinding
 
-    val mapList = mutableListOf<HashMap<String, String>>()
+    val mapDataList = mutableListOf<HashMap<String, String>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity() {
                 val ids = intArrayOf(R.id.textViewName, R.id.textViewAge, R.id.textViewKorScore)
 
                 adapter = SimpleAdapter(
-                    this@MainActivity, mapList, R.layout.row, keys, ids
+                    this@MainActivity, mapDataList, R.layout.row, keys, ids
                 )
             }
 
@@ -38,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 map["age"] = age
                 map["korScore"] = korScore
 
-                mapList.add(map)
+                mapDataList.add(map)
 
                 val adapter = listView.adapter as SimpleAdapter
                 adapter.notifyDataSetChanged()
