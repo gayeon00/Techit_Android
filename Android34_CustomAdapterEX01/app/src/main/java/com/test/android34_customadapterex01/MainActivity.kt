@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity() {
 
     val data1 = mutableListOf<String>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -25,6 +24,9 @@ class MainActivity : AppCompatActivity() {
             editTextText.run{
                 setOnEditorActionListener { textView, i, keyEvent ->
                     data1.add(text.toString())
+
+                    setText("")
+
                     false
                 }
             }
@@ -45,16 +47,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            var rowBinding: RowBinding?
+            val rowBinding: RowBinding?
             var conView = convertView
 
             if(conView==null){
                 rowBinding = RowBinding.inflate(layoutInflater)
                 conView = rowBinding.root
 
-                conView!!.tag = rowBinding
+                conView.tag = rowBinding
             } else {
-                rowBinding = convertView!!.tag as RowBinding
+                rowBinding = conView.tag as RowBinding
             }
 
             rowBinding.run {
