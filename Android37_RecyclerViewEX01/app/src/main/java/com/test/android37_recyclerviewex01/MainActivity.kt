@@ -62,6 +62,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //뷰홀더 생성
+        //RowBinding을 이용하여 ViewHolderClass 객체를 생성하고, 해당 객체를 반환
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
             val rowBinding = RowBinding.inflate(layoutInflater)
             val viewHolderClass = ViewHolderClass(rowBinding)
@@ -82,6 +84,7 @@ class MainActivity : AppCompatActivity() {
             return dataList.size
         }
 
+        // RecyclerView의 각 항목에 대한 데이터를 뷰 홀더에 바인딩합니다. holder 매개변수를 통해 뷰 홀더를 전달
         override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
             holder.textViewName.text = dataList[position].name
             holder.textViewAge.text = dataList[position].age.toString()
