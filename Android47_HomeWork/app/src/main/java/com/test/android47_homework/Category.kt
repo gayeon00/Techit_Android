@@ -7,7 +7,9 @@ data class Category(val title: String, val memoList: ArrayList<Memo> = ArrayList
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         arrayListOf<Memo>().apply {
-            parcel.readTypedList(this, Memo.CREATOR)
+            parcel.readTypedList(arrayListOf<Memo>(), Memo.CREATOR)
+            //or null이 아닐게 확실 할 경우
+            //Memo.createFromParcel(parcel)
         }
     )
 
