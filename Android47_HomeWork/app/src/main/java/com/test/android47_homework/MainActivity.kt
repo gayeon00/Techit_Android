@@ -17,8 +17,10 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.test.android47_homework.category.AddCategoryActivity
+import com.test.android47_homework.category.EditCategoryActivity
 import com.test.android47_homework.databinding.ActivityMainBinding
 import com.test.android47_homework.databinding.RowCategoryBinding
+import com.test.android47_homework.memo.MemoMainActivity
 
 class MainActivity : AppCompatActivity() {
     lateinit var activityMainBinding: ActivityMainBinding
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     val categoryList = mutableListOf<Category>()
 
     lateinit var mainActivityResultLauncher: ActivityResultLauncher<Intent>
+    lateinit var editCategoryActivityResultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -40,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val c1 = ActivityResultContracts.StartActivityForResult()
-        mainActivityResultLauncher  = registerForActivityResult(c1) {
+        mainActivityResultLauncher = registerForActivityResult(c1) {
             if (it.resultCode == RESULT_OK) {
                 val category = it.data?.getParcelableExtra<Category>("categoryTitle")
 
@@ -49,6 +52,24 @@ class MainActivity : AppCompatActivity() {
                 }
                 //recyclerView adapter업데이트
                 activityMainBinding.recyclerView.adapter?.notifyDataSetChanged()
+            }
+        }
+
+        val contractModify = ActivityResultContracts.StartActivityForResult()
+        editCategoryActivityResultLauncher = registerForActivityResult(contractModify) {
+            if (it.resultCode == RESULT_OK) {
+                //클릭한 position의 data 업데이트
+                //position도 intent로 부터 받아옴(쐈다가, 다시 받아오는 구조)
+                val position = it.data?.getIntExtra("categoryPosition", 0)
+                val newCategoryTitle  = it.data?.extras?.getCharSequence("categoryNewTitle")
+
+
+                if (position != null) {
+                    if (newCategoryTitle != null) {
+                        categoryList[position].title = newCategoryTitle.toString()
+                    }
+                    activityMainBinding.recyclerView.adapter?.notifyItemChanged(position)
+                }
             }
         }
     }
@@ -83,13 +104,31 @@ class MainActivity : AppCompatActivity() {
 
                     //카테고리 수정 버튼
                     contextMenu[0].setOnMenuItemClickListener {
+                        val modifyIntent =
+                            Intent(this@MainActivity, EditCategoryActivity::class.java)
+                        modifyIntent.putExtra("categoryPosition", this.adapterPosition)
+                        modifyIntent.putExtra(
+                            "categoryTitle",
+                            categoryList[this.adapterPosition].title
+                        )
+                        editCategoryActivityResultLauncher.launch(modifyIntent)
+
                         true
                     }
                     //카테고리 삭제 버튼
                     contextMenu[1].setOnMenuItemClickListener {
                         categoryList.removeAt(adapterPosition)
+
+                        this@RecyclerViewAdapter.notifyDataSetChanged()
                         true
                     }
+                }
+
+                rowCategoryBinding.root.setOnClickListener {
+                    //메모 메인으로 가기
+                    val memoMainIntent = Intent(this@MainActivity, MemoMainActivity::class.java)
+                    memoMainIntent.putExtra("category", categoryList[this.adapterPosition])
+                    startActivity(memoMainIntent)
                 }
             }
         }

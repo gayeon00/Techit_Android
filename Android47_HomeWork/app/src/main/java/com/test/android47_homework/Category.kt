@@ -3,7 +3,7 @@ package com.test.android47_homework
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Category(val title: String, val memoList: ArrayList<Memo> = ArrayList()) : Parcelable {
+data class Category(var title: String, var memoList: ArrayList<Memo> = ArrayList()) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         arrayListOf<Memo>().apply {
@@ -33,7 +33,7 @@ data class Category(val title: String, val memoList: ArrayList<Memo> = ArrayList
     }
 }
 
-data class Memo(val title: String, val content: String) : Parcelable {
+data class Memo(var title: String, var content: String) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: ""

@@ -15,6 +15,8 @@ class AddCategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(activityAddCategoryBinding.root)
 
+        supportActionBar?.title = "카테고리 추가"
+
         activityAddCategoryBinding.run {
 
             buttonAdd.setOnClickListener {
