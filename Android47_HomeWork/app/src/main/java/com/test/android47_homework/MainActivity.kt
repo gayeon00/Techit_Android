@@ -5,14 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -37,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         activityMainBinding.run {
             recyclerView.run {
-                adapter = RecyclerViewAdapter()
+                adapter = MainRecyclerViewAdapter()
                 layoutManager = LinearLayoutManager(this@MainActivity)
             }
         }
@@ -92,8 +89,8 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    inner class RecyclerViewAdapter : Adapter<RecyclerViewAdapter.RecyclerViewHolder>() {
-        inner class RecyclerViewHolder(rowCategoryBinding: RowCategoryBinding) :
+    inner class MainRecyclerViewAdapter : Adapter<MainRecyclerViewAdapter.MainRecyclerViewHolder>() {
+        inner class MainRecyclerViewHolder(rowCategoryBinding: RowCategoryBinding) :
             ViewHolder(rowCategoryBinding.root) {
             val textViewCategoryTitle = rowCategoryBinding.textViewRowCategoryName
 
@@ -119,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                     contextMenu[1].setOnMenuItemClickListener {
                         categoryList.removeAt(adapterPosition)
 
-                        this@RecyclerViewAdapter.notifyDataSetChanged()
+                        this@MainRecyclerViewAdapter.notifyDataSetChanged()
                         true
                     }
                 }
@@ -133,9 +130,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainRecyclerViewHolder {
             val rowCategoryBinding = RowCategoryBinding.inflate(layoutInflater)
-            val viewHolder = RecyclerViewHolder(rowCategoryBinding)
+            val viewHolder = MainRecyclerViewHolder(rowCategoryBinding)
 
             val params = LayoutParams(
                 LayoutParams.MATCH_PARENT,
@@ -151,7 +148,7 @@ class MainActivity : AppCompatActivity() {
             return categoryList.size
         }
 
-        override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: MainRecyclerViewHolder, position: Int) {
             holder.textViewCategoryTitle.text = categoryList[position].title
         }
     }
