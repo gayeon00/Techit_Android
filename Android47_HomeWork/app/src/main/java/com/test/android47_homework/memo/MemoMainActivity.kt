@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.test.android47_homework.Category
+import com.test.android47_homework.Data
 import com.test.android47_homework.Memo
 import com.test.android47_homework.R
 import com.test.android47_homework.databinding.ActivityMainMemoBinding
@@ -24,31 +25,19 @@ class MemoMainActivity : AppCompatActivity() {
     lateinit var activityMemoMainBinding: ActivityMainMemoBinding
     lateinit var addActivityResultLauncher: ActivityResultLauncher<Intent>
 
+    var position = 0
     var memoList = mutableListOf<Memo>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         activityMemoMainBinding = ActivityMainMemoBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(activityMemoMainBinding.root)
 
-        // 이전에 저장된 Bundle이 있는 경우 해당 Memo 리스트를 복원합니다.
-        if (savedInstanceState != null) {
-            memoList = savedInstanceState.getParcelableArrayList(KEY_MEMO_LIST) ?: mutableListOf()
-        }
+        position = intent.getIntExtra("position",0)
+        supportActionBar?.title = Data.categoryList[position].title
 
-        val category = intent.getParcelableExtra<Category>("category")
-        if (category != null) {
-            supportActionBar?.title = category.title
+        //카테고리가 가지고있는 memoList
+        memoList = Data.categoryList[position].memoList
 
-            // 이전에 저장된 Bundle이 있는 경우 해당 Memo 리스트를 복원합니다.
-            memoList = if (savedInstanceState != null) {
-                savedInstanceState.getParcelableArrayList(KEY_MEMO_LIST) ?: mutableListOf()
-            } else {
-                //category로부터
-                category.memoList
-            }
-
-        }
 
         activityMemoMainBinding.run {
             recyclerViewMemo.run {
@@ -60,25 +49,11 @@ class MemoMainActivity : AppCompatActivity() {
         val addMemoContracts = ActivityResultContracts.StartActivityForResult()
         addActivityResultLauncher = registerForActivityResult(addMemoContracts) {
             if (it.resultCode == RESULT_OK) {
-                //new memo category에 추가, recyclerview adapter 업데이트
-                val memo = it.data?.getParcelableExtra<Memo>("memo")
-
-                if (memo != null) {
-                    memoList.add(memo)
-                }
                 //recyclerView adapter업데이트
                 activityMemoMainBinding.recyclerViewMemo.adapter?.notifyDataSetChanged()
-
             }
         }
 
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        Log.d("lion", "onSaveInstanceState$outState.")
-        // Memo 리스트를 Bundle에 추가합니다.
-        outState.putParcelableArrayList(KEY_MEMO_LIST, ArrayList(memoList))
     }
 
     //옵션 메뉴 만들기
@@ -92,7 +67,7 @@ class MemoMainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.item_add_memo -> {
                 val addIntent = Intent(this, MemoAddActivity::class.java)
-                //
+                addIntent.putExtra("position", position)
                 addActivityResultLauncher.launch(addIntent)
             }
         }
@@ -128,10 +103,6 @@ class MemoMainActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: MemoRecyclerViewHolder, position: Int) {
             holder.textViewMemoName.text = memoList[position].title
         }
-    }
-
-    companion object {
-        private const val KEY_MEMO_LIST = "memoList"
     }
 }
 

@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                 rowCategoryBinding.root.setOnClickListener {
                     //메모 메인으로 가기
                     val memoMainIntent = Intent(this@MainActivity, MemoMainActivity::class.java)
-                    memoMainIntent.putExtra("category", Data.categoryList[this.adapterPosition])
+                    memoMainIntent.putExtra("position", this.adapterPosition)
                     startActivity(memoMainIntent)
                 }
             }
