@@ -50,18 +50,7 @@ class MainActivity : AppCompatActivity() {
         val contractModify = ActivityResultContracts.StartActivityForResult()
         editCategoryActivityResultLauncher = registerForActivityResult(contractModify) {
             if (it.resultCode == RESULT_OK) {
-                //클릭한 position의 data 업데이트
-                //position도 intent로 부터 받아옴(쐈다가, 다시 받아오는 구조)
-                val position = it.data?.getIntExtra("categoryPosition", 0)
-                val newCategoryTitle  = it.data?.extras?.getCharSequence("categoryNewTitle")
-
-
-                if (position != null) {
-                    if (newCategoryTitle != null) {
-                        Data.categoryList[position].title = newCategoryTitle.toString()
-                    }
-                    activityMainBinding.recyclerView.adapter?.notifyItemChanged(position)
-                }
+                activityMainBinding.recyclerView.adapter?.notifyDataSetChanged()
             }
         }
     }

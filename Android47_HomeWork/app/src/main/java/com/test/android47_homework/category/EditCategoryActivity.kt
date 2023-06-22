@@ -3,6 +3,7 @@ package com.test.android47_homework.category
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.test.android47_homework.Data
 import com.test.android47_homework.databinding.ActivityEditCategoryBinding
 
 class EditCategoryActivity : AppCompatActivity() {
@@ -20,8 +21,9 @@ class EditCategoryActivity : AppCompatActivity() {
 
             buttonEditComplete.setOnClickListener {
                 val editIntent = Intent()
-                editIntent.putExtra("categoryNewTitle", editTextEditCategoryName.text)
-                editIntent.putExtra("categoryPosition", intent.getIntExtra("categoryPosition",0))
+                val position = intent.getIntExtra("categoryPosition",0)
+                val newCategoryTitle = editTextEditCategoryName.text.toString()
+                Data.categoryList[position].title = newCategoryTitle
                 setResult(RESULT_OK, editIntent)
                 finish()
             }
