@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 t2.view = toastBinding.root
 
                 //배경 - 안드로이드에서 제공
-                root.setBackgroundResource(android.R.drawable.toast_frame)
+                toastBinding.root.setBackgroundResource(android.R.drawable.toast_frame)
 
                 //위치 설정 - 중앙에서 y방향으로 +300
                 t2.setGravity(Gravity.CENTER, 0, 300)
