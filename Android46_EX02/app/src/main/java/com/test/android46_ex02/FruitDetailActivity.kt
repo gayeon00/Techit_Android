@@ -18,7 +18,7 @@ class FruitDetailActivity : AppCompatActivity() {
 
             if (fruit != null) {
                 textViewDetailName.text = fruit.name
-                textViewDetailCount.text = fruit.count.toString()
+                textViewDetailCount.text = "${fruit.count.toString()}개"
                 textViewDetailOrigin.text = fruit.origin
             }
 

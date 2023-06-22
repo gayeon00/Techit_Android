@@ -2,6 +2,7 @@ package com.test.android47_homework.memo
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
@@ -30,11 +31,23 @@ class MemoMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(activityMemoMainBinding.root)
 
+        // 이전에 저장된 Bundle이 있는 경우 해당 Memo 리스트를 복원합니다.
+        if (savedInstanceState != null) {
+            memoList = savedInstanceState.getParcelableArrayList(KEY_MEMO_LIST) ?: mutableListOf()
+        }
+
         val category = intent.getParcelableExtra<Category>("category")
         if (category != null) {
             supportActionBar?.title = category.title
-            //category로부터
-            memoList = category.memoList
+
+            // 이전에 저장된 Bundle이 있는 경우 해당 Memo 리스트를 복원합니다.
+            memoList = if (savedInstanceState != null) {
+                savedInstanceState.getParcelableArrayList(KEY_MEMO_LIST) ?: mutableListOf()
+            } else {
+                //category로부터
+                category.memoList
+            }
+
         }
 
         activityMemoMainBinding.run {
@@ -61,6 +74,13 @@ class MemoMainActivity : AppCompatActivity() {
 
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d("lion", "onSaveInstanceState$outState.")
+        // Memo 리스트를 Bundle에 추가합니다.
+        outState.putParcelableArrayList(KEY_MEMO_LIST, ArrayList(memoList))
+    }
+
     //옵션 메뉴 만들기
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_memo_menu, menu)
@@ -79,8 +99,10 @@ class MemoMainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    inner class MemoRecyclerViewAdapter: Adapter<MemoRecyclerViewAdapter.MemoRecyclerViewHolder>() {
-        inner class MemoRecyclerViewHolder(rowMemoBinding: RowMemoBinding):ViewHolder(rowMemoBinding.root) {
+    inner class MemoRecyclerViewAdapter :
+        Adapter<MemoRecyclerViewAdapter.MemoRecyclerViewHolder>() {
+        inner class MemoRecyclerViewHolder(rowMemoBinding: RowMemoBinding) :
+            ViewHolder(rowMemoBinding.root) {
             val textViewMemoName = rowMemoBinding.textViewMemoName
         }
 
@@ -106,6 +128,10 @@ class MemoMainActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: MemoRecyclerViewHolder, position: Int) {
             holder.textViewMemoName.text = memoList[position].title
         }
+    }
+
+    companion object {
+        private const val KEY_MEMO_LIST = "memoList"
     }
 }
 

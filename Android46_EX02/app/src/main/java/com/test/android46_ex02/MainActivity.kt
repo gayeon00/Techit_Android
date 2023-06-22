@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -68,16 +66,25 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val adapter = activityMainBinding.recyclerView.adapter as RecyclerAdapter
+        adapter.notifyDataSetChanged()
+    }
+
     inner class RecyclerAdapter: Adapter<RecyclerAdapter.RecyclerViewHolder>() {
 
-        inner class RecyclerViewHolder(rowBinding: RowBinding): ViewHolder(rowBinding.root), OnClickListener{
+        inner class RecyclerViewHolder(rowBinding: RowBinding): ViewHolder(rowBinding.root) {
             val textViewFruitName = rowBinding.textViewFruitName
 
-            override fun onClick(p0: View?) {
-                //디테일 화면으로 넘어가기(Intent, 데이터 실어 보내기)
-                val myIntent = Intent(this@MainActivity, FruitDetailActivity::class.java)
-                myIntent.putExtra("fruit", fruitList[adapterPosition])
-                startActivity(myIntent)
+            init {
+                rowBinding.root.setOnClickListener {
+                    //디테일 화면으로 넘어가기(Intent, 데이터 실어 보내기)
+                    val myIntent = Intent(this@MainActivity, FruitDetailActivity::class.java)
+                    myIntent.putExtra("fruit", fruitList[adapterPosition])
+                    startActivity(myIntent)
+                }
             }
 
         }
@@ -92,11 +99,7 @@ class MainActivity : AppCompatActivity() {
 
             rowBinding.root.layoutParams = params
 
-            val recyclerViewHolder = RecyclerViewHolder(rowBinding)
-            //클릭 이벤트 설정
-            rowBinding.root.setOnClickListener(recyclerViewHolder)
-
-            return recyclerViewHolder
+            return RecyclerViewHolder(rowBinding)
         }
 
         override fun getItemCount(): Int {
