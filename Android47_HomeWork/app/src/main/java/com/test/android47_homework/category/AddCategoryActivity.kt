@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.test.android47_homework.Category
+import com.test.android47_homework.Data
 import com.test.android47_homework.R
 import com.test.android47_homework.databinding.ActivityAddCategoryBinding
 
@@ -21,7 +22,7 @@ class AddCategoryActivity : AppCompatActivity() {
 
             buttonAdd.setOnClickListener {
                 val addIntent = Intent()
-                addIntent.putExtra("categoryTitle", Category(editTextCategoryName.text.toString()))
+                Data.categoryList.add(Category(editTextCategoryName.text.toString()))
                 setResult(RESULT_OK, addIntent)
                 finish()
             }

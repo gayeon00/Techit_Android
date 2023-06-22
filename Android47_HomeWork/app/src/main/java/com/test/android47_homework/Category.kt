@@ -3,6 +3,12 @@ package com.test.android47_homework
 import android.os.Parcel
 import android.os.Parcelable
 
+class Data {
+    companion object {
+        val categoryList = mutableListOf<Category>()
+    }
+}
+
 data class Category(var title: String, var memoList: ArrayList<Memo> = ArrayList()) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",

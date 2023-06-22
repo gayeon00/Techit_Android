@@ -22,7 +22,7 @@ import com.test.android47_homework.memo.MemoMainActivity
 class MainActivity : AppCompatActivity() {
     lateinit var activityMainBinding: ActivityMainBinding
 
-    val categoryList = mutableListOf<Category>()
+//    val categoryList = mutableListOf<Category>()
 
     lateinit var mainActivityResultLauncher: ActivityResultLauncher<Intent>
     lateinit var editCategoryActivityResultLauncher: ActivityResultLauncher<Intent>
@@ -42,11 +42,6 @@ class MainActivity : AppCompatActivity() {
         val c1 = ActivityResultContracts.StartActivityForResult()
         mainActivityResultLauncher = registerForActivityResult(c1) {
             if (it.resultCode == RESULT_OK) {
-                val category = it.data?.getParcelableExtra<Category>("categoryTitle")
-
-                if (category != null) {
-                    categoryList.add(category)
-                }
                 //recyclerView adapter업데이트
                 activityMainBinding.recyclerView.adapter?.notifyDataSetChanged()
             }
@@ -63,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
                 if (position != null) {
                     if (newCategoryTitle != null) {
-                        categoryList[position].title = newCategoryTitle.toString()
+                        Data.categoryList[position].title = newCategoryTitle.toString()
                     }
                     activityMainBinding.recyclerView.adapter?.notifyItemChanged(position)
                 }
@@ -96,7 +91,7 @@ class MainActivity : AppCompatActivity() {
 
             init {
                 rowCategoryBinding.root.setOnCreateContextMenuListener { contextMenu, view, contextMenuInfo ->
-                    contextMenu?.setHeaderTitle(categoryList[adapterPosition].title)
+                    contextMenu?.setHeaderTitle(Data.categoryList[adapterPosition].title)
                     menuInflater.inflate(R.menu.row_category_menu, contextMenu)
 
                     //카테고리 수정 버튼
@@ -106,7 +101,7 @@ class MainActivity : AppCompatActivity() {
                         modifyIntent.putExtra("categoryPosition", this.adapterPosition)
                         modifyIntent.putExtra(
                             "categoryTitle",
-                            categoryList[this.adapterPosition].title
+                            Data.categoryList[this.adapterPosition].title
                         )
                         editCategoryActivityResultLauncher.launch(modifyIntent)
 
@@ -114,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     //카테고리 삭제 버튼
                     contextMenu[1].setOnMenuItemClickListener {
-                        categoryList.removeAt(adapterPosition)
+                        Data.categoryList.removeAt(adapterPosition)
 
                         this@MainRecyclerViewAdapter.notifyDataSetChanged()
                         true
@@ -124,7 +119,7 @@ class MainActivity : AppCompatActivity() {
                 rowCategoryBinding.root.setOnClickListener {
                     //메모 메인으로 가기
                     val memoMainIntent = Intent(this@MainActivity, MemoMainActivity::class.java)
-                    memoMainIntent.putExtra("category", categoryList[this.adapterPosition])
+                    memoMainIntent.putExtra("category", Data.categoryList[this.adapterPosition])
                     startActivity(memoMainIntent)
                 }
             }
@@ -145,11 +140,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun getItemCount(): Int {
-            return categoryList.size
+            return Data.categoryList.size
         }
 
         override fun onBindViewHolder(holder: MainRecyclerViewHolder, position: Int) {
-            holder.textViewCategoryTitle.text = categoryList[position].title
+            holder.textViewCategoryTitle.text = Data.categoryList[position].title
         }
     }
 }
