@@ -18,7 +18,7 @@
     <EditText
         android:id="@+id/editTextEditMemoTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:ems="10"
         android:inputType="text"
         android:text="Name" />
@@ -31,9 +31,9 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <EditText
-        android:id="@+id/editTextText2"
+        android:id="@+id/editTextEditMemoContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:ems="10"
         android:inputType="text"
         android:text="Name" />
