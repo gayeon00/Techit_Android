@@ -90,7 +90,10 @@ class MemoMainActivity : AppCompatActivity() {
             init {
                 //메모 항목 클릭했을 때
                 rowMemoBinding.root.setOnClickListener {
-
+                    val detailIntent = Intent(this@MemoMainActivity, MemoDetailActivity::class.java)
+                    detailIntent.putExtra("categoryPosition", categoryPosition)
+                    detailIntent.putExtra("memoPosition", adapterPosition)
+                    startActivity(detailIntent)
                 }
                 //메모항목 길게 클릭했을 때
                 rowMemoBinding.root.setOnCreateContextMenuListener { contextMenu, view, contextMenuInfo ->
