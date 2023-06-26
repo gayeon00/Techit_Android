@@ -1,6 +1,5 @@
 # 요구사항
 
----
 
 ![출처: 윤재성 강사님 과제안내](https://github.com/gayeon00/Techit_Android/assets/68911884/63f30a7c-9f4a-431c-957e-9fc34e8c99fd)
 
@@ -12,7 +11,6 @@
 
 # 클래스 구조
 
----
 
 - 첫 화면
     - MainActivity
@@ -48,7 +46,6 @@
 
 # 아이디어
 
----
 
 - 하나의 액티비티를 다시 나갔다 들어와도 그 데이터가 유지돼야했다. 그냥 savedInstance로 해결해야하는 것이 아닌, Category 클래스 내부 memoList 프로퍼티가 저장돼야 하는 것이었다. 따라서, 나는 이를 여러 액티비티가 하나의 데이터를 공유해야하는 경우로 생각했고, 결과적으로 Data 라는 클래스를 하나 두어서 companion object로 categoryList를 두어 해결했다.
 - 각 액티비티는 다이렉트로 Data아래 categoryList에 접근하여 읽고 쓰게 된다
@@ -67,14 +64,11 @@ data class Memo(var title: String, var content: String)
 
 # 과정
 
----
 
 1. 필요한 액티비티를 만들고 레이아웃을 작성한다.
 2. 요구사항 플로우에 따라 기능을 개발한다.
 
 # 키워드
-
----
 
 - ViewBinding
 - RecyclerView
