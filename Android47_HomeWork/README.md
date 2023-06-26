@@ -2,13 +2,13 @@
 
 ---
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/178ff463-4c36-4414-9ace-766f474132da/Untitled.png)
+![출처: 윤재성 강사님 과제안내](https://github.com/gayeon00/Techit_Android/assets/68911884/63f30a7c-9f4a-431c-957e-9fc34e8c99fd)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0ed2424d-c01f-48a0-b4e5-059117df4bcb/Untitled.png)
+![출처: 윤재성 강사님 과제안내](https://github.com/gayeon00/Techit_Android/assets/68911884/76fbd0a4-0d8a-4336-97df-14c38c739c3e)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/640cf416-b8f8-455b-8b4a-6e2b89741451/Untitled.png)
+![출처: 윤재성 강사님 과제안내](https://github.com/gayeon00/Techit_Android/assets/68911884/db139e38-87be-4f02-9f95-31eb986d2a59)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f5dcb40f-dcab-4709-bdcf-9fe0afefaf7f/Untitled.png)
+![출처: 윤재성 강사님 과제안내](https://github.com/gayeon00/Techit_Android/assets/68911884/60c3c716-9b3d-44cb-87bb-06d929d78060)
 
 # 클래스 구조
 
