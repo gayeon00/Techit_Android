@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 //            activityMainBinding.textView2.text = "now: $now2"
 //        }
 
+        // 사용자가 발생시킨 쓰래드 (화면 관련 작업 금지)
         thread {
             while (true) {
                 SystemClock.sleep(100)
