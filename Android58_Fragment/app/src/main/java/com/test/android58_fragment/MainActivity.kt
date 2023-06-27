@@ -3,6 +3,7 @@ package com.test.android58_fragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 
 class MainActivity : AppCompatActivity() {
@@ -60,7 +61,8 @@ class MainActivity : AppCompatActivity() {
 
     //fragment를 backstack에서 제거하는 메서드
     fun removeFragment(name: FragmentName) {
-        supportFragmentManager.popBackStack(name.str, 0)
+        //즉시 제거하라는 의미
+        supportFragmentManager.popBackStack(name.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 }
 
