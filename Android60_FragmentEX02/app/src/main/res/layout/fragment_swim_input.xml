@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragment.input_fragment.SwimInputFragment" >
+
+    <EditText
+        android:id="@+id/editTextSWName"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="이름"/>
+
+    <Button
+        android:id="@+id/buttonSWType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="수영법 고르기" />
+
+</LinearLayout>
