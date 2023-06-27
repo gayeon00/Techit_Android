@@ -1,60 +1,121 @@
 package com.test.android60_fragmentex02.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.test.android60_fragmentex02.R
+import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.RecyclerView.LayoutParams
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.test.android60_fragmentex02.BaseballPlayer
+import com.test.android60_fragmentex02.FragmentName
+import com.test.android60_fragmentex02.MainActivity
+import com.test.android60_fragmentex02.SoccerPlayer
+import com.test.android60_fragmentex02.Student
+import com.test.android60_fragmentex02.SwimPlayer
+import com.test.android60_fragmentex02.databinding.FragmentMainBinding
+import com.test.android60_fragmentex02.databinding.RowBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MainFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MainFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var fragmentMainBinding: FragmentMainBinding
+    lateinit var mainActiviy: MainActivity
+
+    val teams = arrayOf(
+        "전체보기", "야구부", "축구부", "수영부"
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        fragmentMainBinding = FragmentMainBinding.inflate(layoutInflater)
+        mainActiviy = activity as MainActivity
+        fragmentMainBinding.run {
+            spinnerMainTeam.run {
+                val a1 = ArrayAdapter(
+                    mainActiviy, android.R.layout.simple_spinner_item, teams
+                )
+                a1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+                adapter = a1
+
+                setSelection(0)
+            }
+
+            recyclerView.run {
+                adapter = RecyclerViewAdapter()
+                layoutManager = LinearLayoutManager(mainActiviy)
+            }
+
+            buttonToInput.setOnClickListener {
+                mainActiviy.replaceFragment(FragmentName.FRAGMENT_INPUT, true, true)
+            }
+        }
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        return fragmentMainBinding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MainFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MainFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    inner class RecyclerViewAdapter : Adapter<RecyclerViewAdapter.RecyclerViewHolder>() {
+        var studentList = emptyList<Student>()
+        inner class RecyclerViewHolder(rowBinding: RowBinding) : ViewHolder(rowBinding.root) {
+            val textViewRowTeam = rowBinding.textViewRowTeam
+            val textViewRowName = rowBinding.textViewRowName
+
+            init {
+                rowBinding.root.setOnClickListener {
+
                 }
             }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
+            val rowBinding = RowBinding.inflate(layoutInflater)
+
+            val params = LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                LayoutParams.WRAP_CONTENT
+            )
+            rowBinding.root.layoutParams = params
+
+            return RecyclerViewHolder(rowBinding)
+        }
+
+        override fun getItemCount(): Int {
+            return studentList.size
+        }
+
+        override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
+
+            when (fragmentMainBinding.spinnerMainTeam.selectedItemPosition) {
+                0 -> {
+                    studentList = mainActiviy.studentList
+                    holder.textViewRowTeam.text = teams[0]
+                }
+
+                1 -> {
+                    studentList = mainActiviy.studentList.filterIsInstance<BaseballPlayer>()
+                    holder.textViewRowTeam.text = teams[1]
+                }
+
+                2 -> {
+                    studentList = mainActiviy.studentList.filterIsInstance<SoccerPlayer>()
+                    holder.textViewRowTeam.text = teams[2]
+                }
+
+                3 -> {
+                    studentList = mainActiviy.studentList.filterIsInstance<SwimPlayer>()
+                    holder.textViewRowTeam.text = teams[3]
+                }
+            }
+            holder.textViewRowName.text = if (studentList.isNotEmpty()) {
+                studentList[position].name
+            } else {
+                "학생을 추가해 주세요."
+            }
+        }
     }
 }
