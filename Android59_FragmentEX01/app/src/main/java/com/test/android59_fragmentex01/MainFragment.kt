@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
@@ -27,6 +28,7 @@ class MainFragment : Fragment() {
             recyclerView.run {
                 adapter = RecyclerViewAdapter()
                 layoutManager = LinearLayoutManager(mainActivity)
+                addItemDecoration(DividerItemDecoration(mainActivity, LinearLayoutManager.VERTICAL))
             }
             buttonAdd.setOnClickListener {
                 mainActivity.replaceFragment(FragmentName.FRAGMENT_INPUT, true, true)
