@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import com.test.android59_fragmentex01.databinding.FragmentInputBinding
 
@@ -36,7 +37,7 @@ class InputFragment : Fragment() {
             }
 
             editTextAge.addTextChangedListener {
-                if(it!!.isEmpty()){
+                if (it!!.isEmpty()) {
                     textInputLayoutAge.error = "나이를 0자 이상 입력해주세요"
                 } else {
                     textInputLayoutAge.error = null
@@ -44,7 +45,7 @@ class InputFragment : Fragment() {
             }
 
             editTextWeight.addTextChangedListener {
-                if(it!!.isEmpty()){
+                if (it!!.isEmpty()) {
                     textInputLayoutWeight.error = "몸무게를 0자 이상 입력해주세요"
                 } else {
                     textInputLayoutWeight.error = null
@@ -52,16 +53,27 @@ class InputFragment : Fragment() {
             }
 
             editTextWeight.setOnEditorActionListener { textView, i, keyEvent ->
-                mainActivity.animalList.add(
-                    Animal(
-                        animalList[spinnerAnimalType.selectedItemPosition],
-                        editTextName.text.toString(),
-                        editTextAge.text.toString().toInt(),
-                        editTextWeight.text.toString().toInt()
+                if (editTextAge.text.isNotEmpty() && editTextAge.text.isNotEmpty()) {
+                    mainActivity.animalList.add(
+                        Animal(
+                            animalList[spinnerAnimalType.selectedItemPosition],
+                            editTextName.text.toString(),
+                            editTextAge.text.toString().toInt(),
+                            editTextWeight.text.toString().toInt()
+                        )
                     )
-                )
 
-                mainActivity.removeFragment(FragmentName.FRAGMENT_INPUT)
+                    mainActivity.removeFragment(FragmentName.FRAGMENT_INPUT)
+                }
+                if (editTextAge.text.isEmpty()) {
+                    Toast.makeText(mainActivity, "나이를 입력해주세요", Toast.LENGTH_SHORT).show()
+                }
+                if(editTextWeight.text.isEmpty()) {
+                    Toast.makeText(mainActivity, "몸무게를 입력해주세요", Toast.LENGTH_SHORT).show()
+                }
+
+
+
                 false
             }
         }

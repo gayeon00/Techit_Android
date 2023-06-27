@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding.run {
             button.setOnClickListener {
                 // 클래스 이름을 지정하여 같은 앱에 있는 BR을 동작시킴
-                val brIntent = Intent(this@MainActivity, MyReceiver::class.java)
+                val brIntent = Intent(this@MainActivity, MyReceiver2::class.java)
                 sendBroadcast(brIntent)
             }
 
