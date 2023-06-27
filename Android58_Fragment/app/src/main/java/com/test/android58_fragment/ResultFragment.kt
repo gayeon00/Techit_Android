@@ -26,7 +26,7 @@ class ResultFragment : Fragment() {
         fragmentResultBinding.run {
             recyclerView.run {
                 adapter = RecyclerViewAdapter()
-                layoutManager = LinearLayoutManager(activity)
+                layoutManager = LinearLayoutManager(mainActivity)
             }
         }
         // Inflate the layout for this fragment
