@@ -43,15 +43,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startForegroundService(serviceIntent2)
-                } else {
-                    startService(serviceIntent2)
-                }
-
                 //서비스에 접속
                 myServiceConnection = MyServiceConnection()
-                bindService(serviceIntent2, myServiceConnection, BIND_AUTO_CREATE)
+                bindService(serviceIntent2, myServiceConnection, BIND_ADJUST_WITH_ACTIVITY)
             }
 
             button2.setOnClickListener {
