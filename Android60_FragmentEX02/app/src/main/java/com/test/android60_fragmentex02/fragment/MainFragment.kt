@@ -52,7 +52,7 @@ class MainFragment : Fragment() {
             }
 
             buttonToInput.setOnClickListener {
-                mainActiviy.replaceFragment(FragmentName.FRAGMENT_INPUT, true, true)
+                mainActiviy.replaceFragment(FragmentName.FRAGMENT_INPUT, true, false)
             }
         }
         // Inflate the layout for this fragment

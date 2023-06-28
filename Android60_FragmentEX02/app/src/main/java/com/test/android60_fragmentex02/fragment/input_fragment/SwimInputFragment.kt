@@ -1,11 +1,21 @@
 package com.test.android60_fragmentex02.fragment.input_fragment
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import com.test.android60_fragmentex02.FragmentName
+import com.test.android60_fragmentex02.MainActivity
 import com.test.android60_fragmentex02.R
+import com.test.android60_fragmentex02.SoccerPlayer
+import com.test.android60_fragmentex02.SwimPlayer
+import com.test.android60_fragmentex02.databinding.DialogBinding
+import com.test.android60_fragmentex02.databinding.FragmentSwimInputBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,43 +28,48 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class SwimInputFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    lateinit var fragmentSwimInputBinding: FragmentSwimInputBinding
+    lateinit var mainActivity: MainActivity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        fragmentSwimInputBinding = FragmentSwimInputBinding.inflate(layoutInflater)
+        mainActivity = activity as MainActivity
+
+        fragmentSwimInputBinding.run {
+            buttonSWType.setOnClickListener {
+                val dialogBinding = DialogBinding.inflate(layoutInflater)
+
+                val builder = AlertDialog.Builder()
+                builder.setTitle("수영 방법 입력")
+
+                builder.setView(dialogBinding.root)
+
+                builder.setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                    val str = dialogBinding.editTextDialog.text.toString()
+
+                    mainActivity.studentList.add(
+                        SwimPlayer(
+                            editTextSWName.text.toString(),
+                            str
+                        )
+                    )
+
+                    Log.d("now", mainActivity.studentList.toString())
+
+                    mainActivity.removeFragment(FragmentName.FRAGMENT_INPUT)
+                }
+
+                builder.setNegativeButton("취소", null)
+                builder.show()
+            }
+        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_swim_input, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SwimInputFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SwimInputFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    class MyDialogFragment: DialogFragment() {
+
     }
 }
