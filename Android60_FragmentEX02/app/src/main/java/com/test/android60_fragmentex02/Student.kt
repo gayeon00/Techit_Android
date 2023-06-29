@@ -1,6 +1,6 @@
 package com.test.android60_fragmentex02
 
-abstract class Student(val name: String, val team: String)
+open class Student(val name: String, val team: String)
 
 class BaseballPlayer(name: String, val battingAvg: Double, val hCount: Int, val aCount: Int) :
     Student(name, "야구")
