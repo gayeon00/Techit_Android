@@ -85,7 +85,8 @@ class MainFragment : Fragment() {
 
             init {
                 rowBinding.root.setOnClickListener {
-
+                    mainActiviy.student = students[adapterPosition]
+                    mainActiviy.replaceFragment(FragmentName.FRAGMENT_SHOW, true, true)
                 }
             }
         }
