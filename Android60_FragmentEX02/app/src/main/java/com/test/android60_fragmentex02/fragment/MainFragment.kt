@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
@@ -35,6 +38,8 @@ class MainFragment : Fragment() {
         fragmentMainBinding = FragmentMainBinding.inflate(layoutInflater)
         mainActiviy = activity as MainActivity
         fragmentMainBinding.run {
+            val myAdapter = RecyclerViewAdapter()
+
             spinnerMainTeam.run {
                 val a1 = ArrayAdapter(
                     mainActiviy, android.R.layout.simple_spinner_item, teams
@@ -44,11 +49,24 @@ class MainFragment : Fragment() {
                 adapter = a1
 
                 setSelection(0)
+
+                onItemSelectedListener = object : OnItemSelectedListener {
+                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                        myAdapter.updateData(p2)
+                    }
+
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                    }
+
+                }
             }
 
             recyclerView.run {
-                adapter = RecyclerViewAdapter()
+                adapter = myAdapter
                 layoutManager = LinearLayoutManager(mainActiviy)
+
+                addItemDecoration(DividerItemDecoration(mainActiviy, LinearLayoutManager.VERTICAL))
             }
 
             buttonToInput.setOnClickListener {
@@ -60,7 +78,7 @@ class MainFragment : Fragment() {
     }
 
     inner class RecyclerViewAdapter : Adapter<RecyclerViewAdapter.RecyclerViewHolder>() {
-        var studentList = emptyList<Student>()
+        var students = emptyList<Student>()
         inner class RecyclerViewHolder(rowBinding: RowBinding) : ViewHolder(rowBinding.root) {
             val textViewRowTeam = rowBinding.textViewRowTeam
             val textViewRowName = rowBinding.textViewRowName
@@ -70,6 +88,17 @@ class MainFragment : Fragment() {
 
                 }
             }
+        }
+
+        fun updateData(filter: Int) {
+            students = when (filter) {
+                0 -> mainActiviy.studentList
+                1 -> mainActiviy.studentList.filterIsInstance<BaseballPlayer>()
+                2 -> mainActiviy.studentList.filterIsInstance<SoccerPlayer>()
+                3 -> mainActiviy.studentList.filterIsInstance<SwimPlayer>()
+                else -> emptyList()
+            }
+            notifyDataSetChanged()
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
@@ -85,36 +114,17 @@ class MainFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return studentList.size
+            return students.size
         }
 
         override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-
-            when (fragmentMainBinding.spinnerMainTeam.selectedItemPosition) {
-                0 -> {
-                    studentList = mainActiviy.studentList
-                    holder.textViewRowTeam.text = teams[0]
-                }
-
-                1 -> {
-                    studentList = mainActiviy.studentList.filterIsInstance<BaseballPlayer>()
-                    holder.textViewRowTeam.text = teams[1]
-                }
-
-                2 -> {
-                    studentList = mainActiviy.studentList.filterIsInstance<SoccerPlayer>()
-                    holder.textViewRowTeam.text = teams[2]
-                }
-
-                3 -> {
-                    studentList = mainActiviy.studentList.filterIsInstance<SwimPlayer>()
-                    holder.textViewRowTeam.text = teams[3]
-                }
-            }
-            holder.textViewRowName.text = if (studentList.isNotEmpty()) {
-                studentList[position].name
+            val student = students.getOrNull(position)
+            if (student != null) {
+                holder.textViewRowName.text = student.name
+                holder.textViewRowTeam.text = student.team
             } else {
-                "학생을 추가해 주세요."
+                holder.textViewRowName.text = "학생을 추가해 주세요."
+                holder.textViewRowTeam.text = ""
             }
         }
     }
