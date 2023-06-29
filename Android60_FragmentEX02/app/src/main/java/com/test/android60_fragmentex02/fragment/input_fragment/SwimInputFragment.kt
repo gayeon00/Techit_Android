@@ -41,7 +41,7 @@ class SwimInputFragment : Fragment() {
             buttonSWType.setOnClickListener {
                 val dialogBinding = DialogBinding.inflate(layoutInflater)
 
-                val builder = AlertDialog.Builder()
+                val builder = AlertDialog.Builder(mainActivity)
                 builder.setTitle("수영 방법 입력")
 
                 builder.setView(dialogBinding.root)
@@ -56,8 +56,6 @@ class SwimInputFragment : Fragment() {
                         )
                     )
 
-                    Log.d("now", mainActivity.studentList.toString())
-
                     mainActivity.removeFragment(FragmentName.FRAGMENT_INPUT)
                 }
 
@@ -66,10 +64,6 @@ class SwimInputFragment : Fragment() {
             }
         }
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_swim_input, container, false)
-    }
-
-    class MyDialogFragment: DialogFragment() {
-
+        return fragmentSwimInputBinding.root
     }
 }
