@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".fragment.show_fragment.BaseballShowFragment" >
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/textView"
@@ -13,7 +12,7 @@
         android:text="이름" />
 
     <TextView
-        android:id="@+id/textViewBBName"
+        android:id="@+id/textViewSCName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -24,10 +23,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:text="타율" />
+        android:text="골수" />
 
     <TextView
-        android:id="@+id/textViewBBBattingAvg"
+        android:id="@+id/textViewSCGCount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -38,26 +37,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:text="홈런수" />
+        android:text="도움수" />
 
     <TextView
-        android:id="@+id/textVieBBHCount"
+        android:id="@+id/textViewSCHCount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:text="안타수" />
-
-    <TextView
-        android:id="@+id/textViewBBACount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 </LinearLayout>
