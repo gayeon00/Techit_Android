@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.test.android60_fragmentex02.BaseballPlayer
+import com.test.android60_fragmentex02.FragmentName
 import com.test.android60_fragmentex02.MainActivity
 import com.test.android60_fragmentex02.SoccerPlayer
 import com.test.android60_fragmentex02.SwimPlayer
@@ -49,6 +50,15 @@ class ShowFragment : Fragment() {
                     containerLayout.addView(swimBinding.root)
                     showSwimPlayerInfo(mainActivity.student as SwimPlayer)
                 }
+            }
+
+            buttonModify.setOnClickListener {
+                mainActivity.replaceFragment(FragmentName.FRAGMENT_MODIFY, true, false)
+            }
+
+            buttonDelete.setOnClickListener {
+                mainActivity.studentList.remove(mainActivity.student)
+                mainActivity.removeFragment(FragmentName.FRAGMENT_SHOW)
             }
 
 
