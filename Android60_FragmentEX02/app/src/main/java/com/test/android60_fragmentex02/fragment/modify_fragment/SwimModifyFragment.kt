@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.test.android60_fragmentex02.BaseballPlayer
+import com.test.android60_fragmentex02.FragmentName
 import com.test.android60_fragmentex02.MainActivity
 import com.test.android60_fragmentex02.R
 import com.test.android60_fragmentex02.SwimPlayer
@@ -34,8 +36,27 @@ class SwimModifyFragment : Fragment() {
         fragmentSwimModifyBinding.run {
             textViewSWMName.text = student.name
             textViewSWMType.text = student.swimType
+
+            buttonModifyComplete.setOnClickListener {
+                val index = mainActivity.studentList.indexOf(student)
+                val newStudent = createNewSwimPlayer()
+                mainActivity.student = newStudent
+                mainActivity.studentList[index] = newStudent
+
+                mainActivity.removeFragment(FragmentName.FRAGMENT_MODIFY)
+            }
+            
+            buttonModifyCancel.setOnClickListener {
+                mainActivity.removeFragment(FragmentName.FRAGMENT_MODIFY)
+            }
         }
         return fragmentSwimModifyBinding.root
     }
+
+    private fun FragmentSwimModifyBinding.createNewSwimPlayer() =
+        SwimPlayer(
+            editTextSWName.text.toString(),
+            editTextSWName.text.toString()
+        )
 
 }

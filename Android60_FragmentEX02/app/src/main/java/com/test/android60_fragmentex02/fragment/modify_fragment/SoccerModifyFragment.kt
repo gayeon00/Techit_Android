@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.test.android60_fragmentex02.BaseballPlayer
+import com.test.android60_fragmentex02.FragmentName
 import com.test.android60_fragmentex02.MainActivity
 import com.test.android60_fragmentex02.R
 import com.test.android60_fragmentex02.SoccerPlayer
@@ -35,8 +37,29 @@ class SoccerModifyFragment : Fragment() {
             textViewSCMName.text = student.name
             textViewSCMGcount.text = student.goalCount.toString()
             textViewSCMHcount.text = student.helpCount.toString()
+
+            buttonModifyComplete.setOnClickListener {
+                val index = mainActivity.studentList.indexOf(student)
+                val newStudent = createNewSoccerPlayer()
+                mainActivity.student = newStudent
+                mainActivity.studentList[index] = newStudent
+
+                mainActivity.removeFragment(FragmentName.FRAGMENT_MODIFY)
+            }
+
+
+            buttonModifyCancel.setOnClickListener {
+                mainActivity.removeFragment(FragmentName.FRAGMENT_MODIFY)
+            }
         }
         return fragmentSoccerModifyBinding.root
     }
+
+    private fun FragmentSoccerModifyBinding.createNewSoccerPlayer() =
+        SoccerPlayer(
+            editTextSCName.text.toString(),
+            editTextSCGcount.text.toString().toInt(),
+            editTextSCHCount.text.toString().toInt()
+        )
 
 }
