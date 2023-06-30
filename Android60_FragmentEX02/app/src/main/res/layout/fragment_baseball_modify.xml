@@ -19,7 +19,7 @@
         android:layout_height="49dp"
         android:ems="10"
         android:inputType="text"
-        android:hint="이름"/>
+        android:hint="새로운 이름"/>
 
 
 
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="49dp"
         android:ems="10"
-        android:hint="타율"
+        android:hint="새로운 타율"
         android:inputType="numberDecimal" />
 
 
@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="49dp"
         android:ems="10"
-        android:hint="홈런수"
+        android:hint="새로운 홈런수"
         android:inputType="number" />
 
 
@@ -69,6 +69,26 @@
         android:layout_width="match_parent"
         android:layout_height="49dp"
         android:ems="10"
-        android:hint="안타수"
+        android:hint="새로운 안타수"
         android:inputType="number" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonModifyComplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="수정완료" />
+
+        <Button
+            android:id="@+id/buttonModifyCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="취소" />
+    </LinearLayout>
 </LinearLayout>

@@ -1,11 +1,15 @@
 package com.test.android60_fragmentex02.fragment.modify_fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.test.android60_fragmentex02.BaseballPlayer
+import com.test.android60_fragmentex02.MainActivity
 import com.test.android60_fragmentex02.R
+import com.test.android60_fragmentex02.databinding.FragmentBaseballModifyBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,43 +22,23 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class BaseballModifyFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    lateinit var mainActivity: MainActivity
+    lateinit var fragmentBaseballModifyBinding: FragmentBaseballModifyBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_baseball_modify, container, false)
-    }
+        fragmentBaseballModifyBinding = FragmentBaseballModifyBinding.inflate(layoutInflater)
+        mainActivity = activity as MainActivity
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BaseballModifyFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BaseballModifyFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        val student = mainActivity.student as BaseballPlayer
+        Log.d("student", student.toString())
+        fragmentBaseballModifyBinding.run {
+            textViewBBName.text = student.name
+            textViewBBBattingAvg.text = student.battingAvg.toString()
+            textViewBBACount.text = student.aCount.toString()
+            textViewBBHCount.text = student.hCount.toString()
+        }
+        return fragmentBaseballModifyBinding.root
     }
 }
