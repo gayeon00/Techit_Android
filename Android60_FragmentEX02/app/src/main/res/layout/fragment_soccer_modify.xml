@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.modify_fragment.SoccerModifyFragment">
+
+    <TextView
+        android:id="@+id/textViewSCMName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <EditText
+        android:id="@+id/editTextSCName"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="새로운 이름"/>
+
+    <TextView
+        android:id="@+id/textViewSCMGcount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <EditText
+        android:id="@+id/editTextSCGcount"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_marginTop="7dp"
+        android:ems="10"
+        android:hint="새로운 골수"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/textViewSCMHcount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <EditText
+        android:id="@+id/editTextSCHCount"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_marginTop="7dp"
+        android:ems="10"
+        android:hint="새로운 도움수"
+        android:inputType="number" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonModifyComplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="수정완료" />
+
+        <Button
+            android:id="@+id/buttonModifyCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="취소" />
+    </LinearLayout>
+
+</LinearLayout>
