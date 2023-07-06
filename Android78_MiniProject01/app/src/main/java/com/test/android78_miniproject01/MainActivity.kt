@@ -1,12 +1,13 @@
 package com.test.android78_miniproject01
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.test.android78_miniproject01.databinding.ActivityMainBinding
 import com.test.android78_miniproject01.db.DAO
+import com.test.android78_miniproject01.fragment.EditFragment
 import com.test.android78_miniproject01.fragment.InputFragment
 import com.test.android78_miniproject01.fragment.MainFragment
 import com.test.android78_miniproject01.fragment.ShowFragment
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         const val MAIN_FRAGMENT = "MainFragment"
         const val INPUT_FRAGMENT = "InputFragment"
         const val SHOW_FRAGMENT = "ShowFragment"
+        const val EDIT_FRAGMENT = "EditFragment"
 
         // 학생 데이터를 저장할 DB 이름
         const val DB_NAME = "MemoTable"
@@ -37,20 +39,27 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun replaceFragment(name:String, addToBackStack:Boolean, animate:Boolean){
+    fun replaceFragment(name: String, addToBackStack: Boolean, animate: Boolean) {
         // Fragment 교체 상태로 설정한다.
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         // 새로운 Fragment를 담을 변수
-        val newFragment = when(name){
+        val newFragment = when (name) {
             MAIN_FRAGMENT -> {
                 MainFragment()
             }
+
             INPUT_FRAGMENT -> {
                 InputFragment()
             }
+
             SHOW_FRAGMENT -> {
                 ShowFragment()
             }
+
+            EDIT_FRAGMENT -> {
+                EditFragment()
+            }
+
             else -> {
                 Fragment()
             }
@@ -74,16 +83,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Fragment를 BackStack에서 제거한다.
-    fun removeFragment(name:String){
+    fun removeFragment(name: String) {
         supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
-    fun insertMemo(memo: Memo){
+    fun insertMemo(memo: Memo) {
         DAO.insertData(this, memo)
     }
 
     // 학생 데이터를 읽어오는 메서드
-    fun getAllMemo() : MutableList<Memo> {
+    fun getAllMemo(): MutableList<Memo> {
         return DAO.selectAllData(this)
     }
 

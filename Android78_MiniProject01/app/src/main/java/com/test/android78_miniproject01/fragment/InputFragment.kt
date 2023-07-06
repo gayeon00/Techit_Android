@@ -40,7 +40,7 @@ class InputFragment : Fragment() {
                     val name = editTextTitle.text.toString()
                     val content = editTextContent.text.toString()
 
-                    val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
+                    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                     //현재시간 갖고있는 데이터
                     val now = sdf.format(Date())
 

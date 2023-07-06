@@ -36,19 +36,17 @@ class ShowFragment : Fragment() {
 
                 setOnMenuItemClickListener {
                     when (it.itemId) {
-                        R.id.itemModify -> {
-                            //수정하기
-                            //수정하기 프래그먼트로 이동
+                        R.id.itemEdit -> {
+                            mainActivity.replaceFragment(MainActivity.EDIT_FRAGMENT, true, true)
                             //mainActivity.updateData(memo, mainActivity.rowPosition)
                         }
 
                         R.id.itemDelete -> {
                             //지우기
-                            //rowPosition 해도 되나? -> 안된다!!
                             mainActivity.deleteMemo(memo)
+                            mainActivity.removeFragment(MainActivity.SHOW_FRAGMENT)
                         }
                     }
-                    mainActivity.removeFragment(MainActivity.SHOW_FRAGMENT)
                     false
                 }
             }

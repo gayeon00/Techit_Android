@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/itemModify"
+        android:id="@+id/itemEdit"
         android:icon="@android:drawable/ic_menu_edit"
         android:title="수정"
         app:showAsAction="always" />
