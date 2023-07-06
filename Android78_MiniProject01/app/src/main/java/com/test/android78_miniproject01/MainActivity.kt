@@ -87,12 +87,12 @@ class MainActivity : AppCompatActivity() {
         return DAO.selectAllData(this)
     }
 
-    fun deleteMemo(idx: Int) {
-        DAO.deleteData(this@MainActivity, idx)
+    fun deleteMemo(memo: Memo) {
+        DAO.deleteData(this@MainActivity, memo)
     }
 
-    fun updateData(memo: Memo, idx: Int) {
-        DAO.updateData(this, memo, idx)
+    fun updateData(oldMemo: Memo, newMemo: Memo) {
+        DAO.updateData(this, oldMemo, newMemo)
     }
 }
 

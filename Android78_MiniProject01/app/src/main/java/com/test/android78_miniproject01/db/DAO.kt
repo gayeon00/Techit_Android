@@ -65,11 +65,11 @@ class DAO {
             return dataList
         }
 
-        fun deleteData(context: Context, idx: Int) {
+        fun deleteData(context: Context, memo: Memo) {
             //쿼리문
-            val sql = "delete from MemoTable where idx=?"
+            val sql = "delete from MemoTable where date=?"
             //?에 들어갈 값
-            val arg = arrayOf(idx)
+            val arg = arrayOf(memo.date)
 
             //쿼리실행
             val dbHelper = DBHelper(context)
@@ -77,16 +77,16 @@ class DAO {
             dbHelper.close()
         }
 
-        fun updateData(context: Context, obj: Memo, idx: Int) {
+        fun updateData(context: Context, oldMemo: Memo, newMemo: Memo) {
             //쿼리문
             //idx가 ? 인 textData, intData, doubleData, dateDate를 변경한다
             val sql = """update MemoTable
                 |  set title=?, content=?, date=?
-                |  where idx=?
+                |  where date=?
             """.trimMargin()
 
             val args = arrayOf(
-                obj.title, obj.content, obj.date, idx
+                newMemo.title, newMemo.content, newMemo.date, oldMemo.date
             )
 
             //데이터베이스 열고
