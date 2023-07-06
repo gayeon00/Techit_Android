@@ -39,7 +39,7 @@ class EditFragment : Fragment() {
                         val name = editTextTitle.text.toString()
                         val content = editTextContent.text.toString()
 
-                        val sdf = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
+                        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                         //현재시간 갖고있는 데이터
                         val now = sdf.format(Date())
                         val newMemo = Memo(name, content, now)
@@ -50,6 +50,9 @@ class EditFragment : Fragment() {
                     false
                 }
             }
+
+            editTextTitle.setText(memo.title)
+            editTextContent.setText(memo.content)
         }
         // Inflate the layout for this fragment
         return fragmentEditBinding.root
