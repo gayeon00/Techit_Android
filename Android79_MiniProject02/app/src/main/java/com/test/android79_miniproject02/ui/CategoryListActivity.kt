@@ -2,12 +2,13 @@ package com.test.android79_miniproject02.ui
 
 import android.content.DialogInterface
 import android.graphics.Rect
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,7 +32,6 @@ class CategoryListActivity : AppCompatActivity() {
 
         categoryDao = CategoryDao(this)
         updateCategoryList()
-        Log.d("myProject", categoryList.toString())
 
         activityCategoryListBinding.run {
             toolbarPwSetting.run {
@@ -68,16 +68,23 @@ class CategoryListActivity : AppCompatActivity() {
         builder.setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
             val categoryTitle = dialogAddCategoryBinding.editTextCategoryTitle.text.toString()
 
-            categoryDao.addCategory(categoryTitle)
-            updateCategoryList()
+            //존재 한다면
+            if (categoryDao.selectCategory(categoryTitle) != null) {
+                Toast.makeText(this, "이미 존재하는 카테고리입니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                categoryDao.addCategory(categoryTitle)
+                updateCategoryList()
+            }
         }
 
         builder.setNegativeButton("취소", null)
         builder.show()
     }
 
-    inner class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>() {
-        inner class RecyclerViewHolder(rowBinding: RowCategoryListBinding): RecyclerView.ViewHolder(rowBinding.root) {
+    inner class RecyclerViewAdapter :
+        RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>() {
+        inner class RecyclerViewHolder(rowBinding: RowCategoryListBinding) :
+            RecyclerView.ViewHolder(rowBinding.root) {
             val textViewRowCategoryTitle = rowBinding.textViewRowCategoryTitle
 
             init {
@@ -92,21 +99,23 @@ class CategoryListActivity : AppCompatActivity() {
                     //카테고리 수정
                     contextMenu[0].setOnMenuItemClickListener {
                         editCategoryWithDialog()
-                        updateCategoryList()
+
                         false
                     }
 
                     //카테고리 삭제
                     contextMenu[1].setOnMenuItemClickListener {
                         deleteCategory()
-                        updateCategoryList()
+
                         false
                     }
                 }
             }
 
             private fun deleteCategory() {
+                Log.d("delete", "deleteCategory 메서드")
                 categoryDao.deleteCategory(categoryList[adapterPosition].name)
+                updateCategoryList()
             }
 
             private fun editCategoryWithDialog() {
@@ -119,12 +128,17 @@ class CategoryListActivity : AppCompatActivity() {
                 builder.setView(dialogEditCategoryBinding.root)
 
                 builder.setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
-                    val newCategoryTitle = dialogEditCategoryBinding.editTextCategoryTitle.text.toString()
+                    val newCategoryTitle =
+                        dialogEditCategoryBinding.editTextCategoryTitle.text.toString()
                     val oldCategoryTitle = categoryList[adapterPosition].name
 
-                    //카테고리 이름으로 찾아서 수정
-                    categoryDao.updateCategory(oldCategoryTitle, newCategoryTitle)
-
+                    if (categoryDao.selectCategory(newCategoryTitle) != null) {
+                        Toast.makeText(this@CategoryListActivity, "이미 존재하는 카테고리입니다.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        //카테고리 이름으로 찾아서 수정
+                        categoryDao.updateCategory(oldCategoryTitle, newCategoryTitle)
+                        updateCategoryList()
+                    }
                 }
 
                 builder.setNegativeButton("취소", null)
@@ -155,12 +169,19 @@ class CategoryListActivity : AppCompatActivity() {
 
     private fun updateCategoryList() {
         categoryList = categoryDao.getAllCategories()
-
+        Log.d("categoryListPrint", categoryList.toString())
+        activityCategoryListBinding.recyclerViewCategoryList.adapter?.notifyDataSetChanged()
     }
 
-    class CustomItemDecorator(private val desiredHeightInPixels: Int) : RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-            outRect.set(0, desiredHeightInPixels/2, 0, desiredHeightInPixels/2)
+    class CustomItemDecorator(private val desiredHeightInPixels: Int) :
+        RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            outRect.set(0, desiredHeightInPixels / 2, 0, desiredHeightInPixels / 2)
         }
     }
 }

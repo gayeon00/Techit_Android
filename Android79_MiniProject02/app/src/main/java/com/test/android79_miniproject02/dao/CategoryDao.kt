@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import com.test.android79_miniproject02.data.Category
 
 class CategoryDao(context: Context) :
@@ -40,6 +41,27 @@ class CategoryDao(context: Context) :
         db.close()
     }
 
+    fun selectCategory(name: String): Category? {
+        val db = writableDatabase
+
+        val selectionClause = "$COLUMN_NAME = ?"
+        val selectionArgs = arrayOf(name)
+        val cursor = db.query(TABLE_CATEGORY, null, selectionClause, selectionArgs, null, null, null)
+
+        var category: Category? = null
+
+        if(cursor.moveToNext()){
+            val idxName = cursor.getColumnIndex(COLUMN_NAME)
+            val categoryName = cursor.getString(idxName)
+
+            category = Category(categoryName)
+        }
+        cursor.close()
+        db.close()
+
+        return category
+    }
+
     fun getAllCategories(): List<Category> {
         val db = writableDatabase
         val cursor = db.query(TABLE_CATEGORY, null, null, null, null, null, null)
@@ -54,6 +76,8 @@ class CategoryDao(context: Context) :
         }
         cursor.close()
         db.close()
+
+        Log.d("delete", "dao로 카테고리 다 불러오기 메서드")
 
         return categoryList
     }
@@ -77,6 +101,8 @@ class CategoryDao(context: Context) :
 
         db.delete(TABLE_CATEGORY, whereClause, whereArgs)
         db.close()
+
+        Log.d("delete", "dao로 delete 완료!")
 
     }
 
