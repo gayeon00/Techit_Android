@@ -61,10 +61,8 @@ class SetPasswordFragment : Fragment() {
 
     private fun savePassword(password: String) {
         val filePath = mainActivity.dataDir.toString() + MainApplication.Constants.FILE_NAME
-        Log.d("myProject", filePath)
         val fos = FileOutputStream(filePath)
         val dos = DataOutputStream(fos)
-        Log.d("myProject", password)
 
         dos.writeUTF(password)
     }

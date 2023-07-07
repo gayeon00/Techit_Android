@@ -2,108 +2,107 @@ package com.test.android79_miniproject02.dao
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
+import com.test.android79_miniproject02.dao.DBHelper.Companion.CATEGORY_COLUMN_ID
+import com.test.android79_miniproject02.dao.DBHelper.Companion.CATEGORY_COLUMN_NAME
+import com.test.android79_miniproject02.dao.DBHelper.Companion.TABLE_CATEGORY
 import com.test.android79_miniproject02.data.Category
 
-class CategoryDao(context: Context) :
-    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class CategoryDao{
 
     companion object {
-        private const val DATABASE_NAME = "MemoDatabase"
-        private const val DATABASE_VERSION = 1
+        fun addCategory(context: Context, categoryName: String) {
+            val db = DBHelper(context).writableDatabase
 
-        private const val TABLE_CATEGORY = "category"
-        private const val COLUMN_ID = "id"
-        private const val COLUMN_NAME = "name"
-    }
-
-    override fun onCreate(sqLiteDatabase: SQLiteDatabase?) {
-        val sql = """CREATE TABLE $TABLE_CATEGORY
-                    ($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                    $COLUMN_NAME TEXT NOT NULL)"""
-            .trimIndent()
-        sqLiteDatabase?.execSQL(sql)
-    }
-
-    override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
-        TODO("Not yet implemented")
-    }
-
-    fun addCategory(categoryName: String) {
-        val db = writableDatabase
-
-        val values = ContentValues().apply {
-            put(COLUMN_NAME, categoryName)
+            val values = ContentValues().apply {
+                put(CATEGORY_COLUMN_NAME, categoryName)
+            }
+            db.insert(TABLE_CATEGORY, null, values)
+            db.close()
         }
-        db.insert(TABLE_CATEGORY, null, values)
-        db.close()
-    }
 
-    fun selectCategory(name: String): Category? {
-        val db = writableDatabase
+        fun selectCategory(context: Context, name: String): Category? {
+            val db = DBHelper(context).writableDatabase
 
-        val selectionClause = "$COLUMN_NAME = ?"
-        val selectionArgs = arrayOf(name)
-        val cursor = db.query(TABLE_CATEGORY, null, selectionClause, selectionArgs, null, null, null)
+            val selectionClause = "$CATEGORY_COLUMN_NAME = ?"
+            val selectionArgs = arrayOf(name)
+            val cursor =
+                db.query(TABLE_CATEGORY, null, selectionClause, selectionArgs, null, null, null)
 
-        var category: Category? = null
+            var category: Category? = null
 
-        if(cursor.moveToNext()){
-            val idxName = cursor.getColumnIndex(COLUMN_NAME)
-            val categoryName = cursor.getString(idxName)
+            if (cursor.moveToNext()) {
+                val idxName = cursor.getColumnIndex(CATEGORY_COLUMN_NAME)
+                val categoryName = cursor.getString(idxName)
 
-            category = Category(categoryName)
+                category = Category(categoryName)
+            }
+            cursor.close()
+            db.close()
+
+            return category
         }
-        cursor.close()
-        db.close()
 
-        return category
-    }
+        fun selectCategoryId(context: Context, name: String): Int {
+            val db = DBHelper(context).writableDatabase
 
-    fun getAllCategories(): List<Category> {
-        val db = writableDatabase
-        val cursor = db.query(TABLE_CATEGORY, null, null, null, null, null, null)
-        val categoryList = mutableListOf<Category>()
+            val selectionClause = "$CATEGORY_COLUMN_NAME = ?"
+            val selectionArgs = arrayOf(name)
+            val cursor =
+                db.query(TABLE_CATEGORY, null, selectionClause, selectionArgs, null, null, null)
 
-        while (cursor.moveToNext()) {
-            val idxName = cursor.getColumnIndex(COLUMN_NAME)
-            val categoryName = cursor.getString(idxName)
+            var id = -1
 
-            val category = Category(categoryName)
-            categoryList.add(category)
+            if (cursor.moveToNext()) {
+                val idxIndex = cursor.getColumnIndex(CATEGORY_COLUMN_ID)
+                val categoryIndex = cursor.getInt(idxIndex)
+
+                id = categoryIndex
+            }
+            cursor.close()
+            db.close()
+
+            return id
         }
-        cursor.close()
-        db.close()
 
-        Log.d("delete", "dao로 카테고리 다 불러오기 메서드")
+        fun getAllCategories(context: Context): List<Category> {
+            val db = DBHelper(context).writableDatabase
+            val cursor = db.query(TABLE_CATEGORY, null, null, null, null, null, null)
+            val categoryList = mutableListOf<Category>()
 
-        return categoryList
-    }
+            while (cursor.moveToNext()) {
+                val idxName = cursor.getColumnIndex(CATEGORY_COLUMN_NAME)
+                val categoryName = cursor.getString(idxName)
 
-    fun updateCategory(oldName: String, newName: String) {
-        val db = writableDatabase
-        val values = ContentValues().apply {
-            put(COLUMN_NAME, newName)
+                val category = Category(categoryName)
+                categoryList.add(category)
+            }
+            cursor.close()
+            db.close()
+
+
+            return categoryList
         }
-        val whereClause = "$COLUMN_NAME = ?"
-        val whereArgs = arrayOf(oldName)
-        db.update(TABLE_CATEGORY, values, whereClause, whereArgs)
-        db.close()
 
-    }
+        fun updateCategory(context: Context, oldName: String, newName: String) {
+            val db = DBHelper(context).writableDatabase
+            val values = ContentValues().apply {
+                put(CATEGORY_COLUMN_NAME, newName)
+            }
+            val whereClause = "$CATEGORY_COLUMN_NAME = ?"
+            val whereArgs = arrayOf(oldName)
+            db.update(TABLE_CATEGORY, values, whereClause, whereArgs)
+            db.close()
 
-    fun deleteCategory(name: String) {
-        val db = writableDatabase
-        val whereClause = "$COLUMN_NAME = ?"
-        val whereArgs = arrayOf(name)
+        }
 
-        db.delete(TABLE_CATEGORY, whereClause, whereArgs)
-        db.close()
+        fun deleteCategory(context: Context, name: String) {
+            val db = DBHelper(context).writableDatabase
+            val whereClause = "$CATEGORY_COLUMN_NAME = ?"
+            val whereArgs = arrayOf(name)
 
-        Log.d("delete", "dao로 delete 완료!")
-
+            db.delete(TABLE_CATEGORY, whereClause, whereArgs)
+            db.close()
+        }
     }
 
 }

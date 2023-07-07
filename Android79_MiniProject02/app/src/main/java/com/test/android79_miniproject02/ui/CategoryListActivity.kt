@@ -1,6 +1,7 @@
 package com.test.android79_miniproject02.ui
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
@@ -19,10 +20,10 @@ import com.test.android79_miniproject02.data.Category
 import com.test.android79_miniproject02.databinding.ActivityCategoryListBinding
 import com.test.android79_miniproject02.databinding.DialogAddCategoryBinding
 import com.test.android79_miniproject02.databinding.RowCategoryListBinding
+import com.test.android79_miniproject02.ui.memo.MemoListActivity
 
 class CategoryListActivity : AppCompatActivity() {
     lateinit var activityCategoryListBinding: ActivityCategoryListBinding
-    lateinit var categoryDao: CategoryDao
 
     var categoryList = listOf<Category>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +31,6 @@ class CategoryListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(activityCategoryListBinding.root)
 
-        categoryDao = CategoryDao(this)
         updateCategoryList()
 
         activityCategoryListBinding.run {
@@ -69,10 +69,10 @@ class CategoryListActivity : AppCompatActivity() {
             val categoryTitle = dialogAddCategoryBinding.editTextCategoryTitle.text.toString()
 
             //존재 한다면
-            if (categoryDao.selectCategory(categoryTitle) != null) {
+            if (CategoryDao.selectCategory(this,categoryTitle) != null) {
                 Toast.makeText(this, "이미 존재하는 카테고리입니다.", Toast.LENGTH_SHORT).show()
             } else {
-                categoryDao.addCategory(categoryTitle)
+                CategoryDao.addCategory(this,categoryTitle)
                 updateCategoryList()
             }
         }
@@ -90,6 +90,18 @@ class CategoryListActivity : AppCompatActivity() {
             init {
                 rowBinding.root.setOnClickListener {
                     //TODO 클릭 시
+                    //툴바에 띄울 카테고리 이름
+                    val categoryName = textViewRowCategoryTitle.text.toString()
+                    //메모 리스트들 가져올 때 검색용으로 쓸 카테고리 아이디
+                    val categoryId = CategoryDao.selectCategoryId(this@CategoryListActivity, categoryName)
+                    Log.d("click", categoryName)
+                    Log.d("click", categoryId.toString())
+
+                    val memoListIntent = Intent(this@CategoryListActivity, MemoListActivity::class.java)
+                    memoListIntent.putExtra("categoryId", categoryId)
+                    memoListIntent.putExtra("categoryName", categoryName)
+
+                    startActivity(memoListIntent)
                 }
 
                 //컨텍스트 메뉴 생성
@@ -113,8 +125,7 @@ class CategoryListActivity : AppCompatActivity() {
             }
 
             private fun deleteCategory() {
-                Log.d("delete", "deleteCategory 메서드")
-                categoryDao.deleteCategory(categoryList[adapterPosition].name)
+                CategoryDao.deleteCategory(this@CategoryListActivity,categoryList[adapterPosition].name)
                 updateCategoryList()
             }
 
@@ -132,11 +143,11 @@ class CategoryListActivity : AppCompatActivity() {
                         dialogEditCategoryBinding.editTextCategoryTitle.text.toString()
                     val oldCategoryTitle = categoryList[adapterPosition].name
 
-                    if (categoryDao.selectCategory(newCategoryTitle) != null) {
+                    if (CategoryDao.selectCategory(this@CategoryListActivity, newCategoryTitle) != null) {
                         Toast.makeText(this@CategoryListActivity, "이미 존재하는 카테고리입니다.", Toast.LENGTH_SHORT).show()
                     } else {
                         //카테고리 이름으로 찾아서 수정
-                        categoryDao.updateCategory(oldCategoryTitle, newCategoryTitle)
+                        CategoryDao.updateCategory(this@CategoryListActivity, oldCategoryTitle, newCategoryTitle)
                         updateCategoryList()
                     }
                 }
@@ -168,7 +179,7 @@ class CategoryListActivity : AppCompatActivity() {
     }
 
     private fun updateCategoryList() {
-        categoryList = categoryDao.getAllCategories()
+        categoryList = CategoryDao.getAllCategories(this)
         Log.d("categoryListPrint", categoryList.toString())
         activityCategoryListBinding.recyclerViewCategoryList.adapter?.notifyDataSetChanged()
     }
