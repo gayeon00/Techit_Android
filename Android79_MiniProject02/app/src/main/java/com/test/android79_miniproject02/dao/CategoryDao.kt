@@ -42,7 +42,7 @@ class CategoryDao(context: Context) :
 
     fun getAllCategories(): List<Category> {
         val db = writableDatabase
-        val cursor = writableDatabase.query(TABLE_CATEGORY, null, null, null, null, null, null)
+        val cursor = db.query(TABLE_CATEGORY, null, null, null, null, null, null)
         val categoryList = mutableListOf<Category>()
 
         while (cursor.moveToNext()) {
@@ -56,6 +56,28 @@ class CategoryDao(context: Context) :
         db.close()
 
         return categoryList
+    }
+
+    fun updateCategory(oldName: String, newName: String) {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_NAME, newName)
+        }
+        val whereClause = "$COLUMN_NAME = ?"
+        val whereArgs = arrayOf(oldName)
+        db.update(TABLE_CATEGORY, values, whereClause, whereArgs)
+        db.close()
+
+    }
+
+    fun deleteCategory(name: String) {
+        val db = writableDatabase
+        val whereClause = "$COLUMN_NAME = ?"
+        val whereArgs = arrayOf(name)
+
+        db.delete(TABLE_CATEGORY, whereClause, whereArgs)
+        db.close()
+
     }
 
 }

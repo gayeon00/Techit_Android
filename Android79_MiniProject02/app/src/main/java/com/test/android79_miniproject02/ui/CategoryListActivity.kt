@@ -1,18 +1,20 @@
 package com.test.android79_miniproject02.ui
 
 import android.content.DialogInterface
+import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.get
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.test.android79_miniproject02.R
 import com.test.android79_miniproject02.dao.CategoryDao
 import com.test.android79_miniproject02.data.Category
-import com.test.android79_miniproject02.data.Memo
 import com.test.android79_miniproject02.databinding.ActivityCategoryListBinding
 import com.test.android79_miniproject02.databinding.DialogAddCategoryBinding
 import com.test.android79_miniproject02.databinding.RowCategoryListBinding
@@ -28,7 +30,7 @@ class CategoryListActivity : AppCompatActivity() {
         setContentView(activityCategoryListBinding.root)
 
         categoryDao = CategoryDao(this)
-        categoryList = categoryDao.getAllCategories()
+        updateCategoryList()
         Log.d("myProject", categoryList.toString())
 
         activityCategoryListBinding.run {
@@ -49,6 +51,7 @@ class CategoryListActivity : AppCompatActivity() {
                         DividerItemDecoration.VERTICAL
                     )
                 )
+                addItemDecoration(CustomItemDecorator(53))
             }
         }
     }
@@ -66,7 +69,7 @@ class CategoryListActivity : AppCompatActivity() {
             val categoryTitle = dialogAddCategoryBinding.editTextCategoryTitle.text.toString()
 
             categoryDao.addCategory(categoryTitle)
-            categoryList = categoryDao.getAllCategories()
+            updateCategoryList()
         }
 
         builder.setNegativeButton("취소", null)
@@ -81,6 +84,51 @@ class CategoryListActivity : AppCompatActivity() {
                 rowBinding.root.setOnClickListener {
                     //TODO 클릭 시
                 }
+
+                //컨텍스트 메뉴 생성
+                rowBinding.root.setOnCreateContextMenuListener { contextMenu, view, contextMenuInfo ->
+                    menuInflater.inflate(R.menu.context_category_list, contextMenu)
+
+                    //카테고리 수정
+                    contextMenu[0].setOnMenuItemClickListener {
+                        editCategoryWithDialog()
+                        updateCategoryList()
+                        false
+                    }
+
+                    //카테고리 삭제
+                    contextMenu[1].setOnMenuItemClickListener {
+                        deleteCategory()
+                        updateCategoryList()
+                        false
+                    }
+                }
+            }
+
+            private fun deleteCategory() {
+                categoryDao.deleteCategory(categoryList[adapterPosition].name)
+            }
+
+            private fun editCategoryWithDialog() {
+                val dialogEditCategoryBinding = DialogAddCategoryBinding.inflate(layoutInflater)
+
+                val builder = AlertDialog.Builder(this@CategoryListActivity)
+                builder.setTitle("카테고리 수정")
+                builder.setIcon(R.mipmap.ic_launcher)
+
+                builder.setView(dialogEditCategoryBinding.root)
+
+                builder.setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                    val newCategoryTitle = dialogEditCategoryBinding.editTextCategoryTitle.text.toString()
+                    val oldCategoryTitle = categoryList[adapterPosition].name
+
+                    //카테고리 이름으로 찾아서 수정
+                    categoryDao.updateCategory(oldCategoryTitle, newCategoryTitle)
+
+                }
+
+                builder.setNegativeButton("취소", null)
+                builder.show()
             }
         }
 
@@ -102,6 +150,17 @@ class CategoryListActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
             holder.textViewRowCategoryTitle.text = categoryList[position].name
+        }
+    }
+
+    private fun updateCategoryList() {
+        categoryList = categoryDao.getAllCategories()
+
+    }
+
+    class CustomItemDecorator(private val desiredHeightInPixels: Int) : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            outRect.set(0, desiredHeightInPixels/2, 0, desiredHeightInPixels/2)
         }
     }
 }
