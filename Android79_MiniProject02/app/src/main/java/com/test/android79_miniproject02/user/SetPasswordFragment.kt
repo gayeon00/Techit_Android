@@ -1,14 +1,22 @@
 package com.test.android79_miniproject02.user
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.test.android79_miniproject02.MainActivity
+import com.test.android79_miniproject02.MainApplication
 import com.test.android79_miniproject02.R
 import com.test.android79_miniproject02.databinding.FragmentSetPasswordBinding
+import com.test.android79_miniproject02.ui.CategoryListActivity
+import java.io.DataOutputStream
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +43,9 @@ class SetPasswordFragment : Fragment() {
                 val passwordChk = editTextPasswordCheck.text.toString()
 
                 if (password == passwordChk) {
-
+                    savePassword(password)
+                    startActivity(Intent(context, CategoryListActivity::class.java))
+                    mainActivity.finish()
                 } else {
                     Toast.makeText(
                         mainActivity,
@@ -47,6 +57,16 @@ class SetPasswordFragment : Fragment() {
         }
         // Inflate the layout for this fragment
         return fragmentSetPasswordBinding.root
+    }
+
+    private fun savePassword(password: String) {
+        val filePath = mainActivity.dataDir.toString() + MainApplication.Constants.FILE_NAME
+        Log.d("myProject", filePath)
+        val fos = FileOutputStream(filePath)
+        val dos = DataOutputStream(fos)
+        Log.d("myProject", password)
+
+        dos.writeUTF(password)
     }
 
 }

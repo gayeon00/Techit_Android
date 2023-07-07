@@ -28,12 +28,6 @@
             android:name=".ui.CategoryListActivity"
             android:exported="false" />
         <activity
-            android:name=".user.LogInActivity"
-            android:exported="false" />
-        <activity
-            android:name=".user.PasswordSettingActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

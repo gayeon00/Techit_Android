@@ -5,7 +5,7 @@ import android.app.Application
 class MainApplication : Application() {
     class Constants {
         companion object {
-            const val FILE_NAME = "password.dat"
+            const val FILE_NAME = "/password.dat"
         }
     }
 }
