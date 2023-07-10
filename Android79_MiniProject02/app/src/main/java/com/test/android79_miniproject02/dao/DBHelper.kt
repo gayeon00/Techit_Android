@@ -27,7 +27,7 @@ class DBHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
                 $MEMO_COLUMN_TITLE TEXT NOT NULL,
                 $MEMO_COLUMN_CONTENT TEXT,
                 $MEMO_COLUMN_DATE TEXT,
-                FOREIGN KEY (${MEMO_COLUMN_CATEGORY_ID}) REFERENCES ${TABLE_CATEGORY} (${CATEGORY_COLUMN_ID}))"""
+                FOREIGN KEY (${MEMO_COLUMN_CATEGORY_ID}) REFERENCES $TABLE_CATEGORY (${CATEGORY_COLUMN_ID}))"""
             .trimIndent()
         p0?.execSQL(memoSQL)
 
