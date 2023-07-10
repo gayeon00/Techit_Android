@@ -6,55 +6,48 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.test.android79_miniproject02.R
+import com.test.android79_miniproject02.dao.MemoDao
+import com.test.android79_miniproject02.data.Memo
+import com.test.android79_miniproject02.databinding.FragmentEditMemoBinding
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EditMemoFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EditMemoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    lateinit var fragmentEditMemoBinding: FragmentEditMemoBinding
+    lateinit var memoListActivity: MemoListActivity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_memo, container, false)
-    }
+    ): View {
+        fragmentEditMemoBinding = FragmentEditMemoBinding.inflate(layoutInflater)
+        memoListActivity = activity as MemoListActivity
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditMemoFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditMemoFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        fragmentEditMemoBinding.run {
+            toolbarPwSetting.run {
+                setOnMenuItemClickListener {
+                    val newTitle = editTextMemoTitle2.text.toString()
+                    val newContent = editTextMemoContent2.text.toString()
+
+                    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                    //현재시간 갖고있는 데이터
+                    val now = sdf.format(Date())
+
+                    val newMemo = Memo(memoListActivity.categoryId, newTitle, newContent, now)
+                    MemoDao.updateMemo(memoListActivity, memoListActivity.memo, newMemo)
+                    memoListActivity.removeFragment(MemoListActivity.SHOW_MEMO_FRAGMENT)
+
+                    false
+                }
+
+                setNavigationOnClickListener {
+                    memoListActivity.removeFragment(MemoListActivity.SHOW_MEMO_FRAGMENT)
                 }
             }
+
+        }
+        // Inflate the layout for this fragment
+        return fragmentEditMemoBinding.root
     }
+
 }

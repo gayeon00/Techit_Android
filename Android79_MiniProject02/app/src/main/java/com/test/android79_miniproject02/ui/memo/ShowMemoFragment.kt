@@ -15,7 +15,7 @@ class ShowMemoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         fragmentShowMemoBinding = FragmentShowMemoBinding.inflate(layoutInflater)
         memoListActivity = activity as MemoListActivity
 
@@ -33,7 +33,7 @@ class ShowMemoFragment : Fragment() {
                     when (it.itemId) {
                         //수정 시
                         R.id.action_edit -> {
-
+                            memoListActivity.replaceFragment(MemoListActivity.EDIT_MEMO_FRAGMENT, true, true)
                         }
                         //삭제 시
                         R.id.action_delete -> {

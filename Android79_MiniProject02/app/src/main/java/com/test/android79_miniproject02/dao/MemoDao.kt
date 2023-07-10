@@ -90,5 +90,20 @@ class MemoDao {
             db.close()
             return memoList
         }
+
+        fun updateMemo(context: Context, oldMemo: Memo, newMemo: Memo) {
+            val db = DBHelper(context).writableDatabase
+            val values = ContentValues().apply {
+                put(MEMO_COLUMN_TITLE, newMemo.title)
+                put(MEMO_COLUMN_DATE, newMemo.date)
+                put(MEMO_COLUMN_CONTENT, newMemo.content)
+                put(MEMO_COLUMN_CATEGORY_ID, newMemo.categoryId)
+            }
+            val whereClause = "$MEMO_COLUMN_DATE = ?"
+            val whereArgs = arrayOf(oldMemo.date)
+            db.update(TABLE_MEMO, values, whereClause, whereArgs)
+            db.close()
+
+        }
     }
 }
