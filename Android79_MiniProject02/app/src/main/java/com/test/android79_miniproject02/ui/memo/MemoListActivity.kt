@@ -42,8 +42,6 @@ class MemoListActivity : AppCompatActivity() {
         categoryId = intent.getIntExtra("categoryId", -1)
         categoryName = intent.getStringExtra("categoryName").toString()
 
-        memoList = MemoDao.getMemosByCategoryId(this, categoryId)
-
         replaceFragment(MAIN_MEMO_FRAGMENT, false, false)
     }
 

@@ -3,6 +3,7 @@ package com.test.android79_miniproject02.ui.memo
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,7 @@ class MainMemoFragment : Fragment() {
         fragmentMainMemoBinding = FragmentMainMemoBinding.inflate(layoutInflater)
         memoListActivity = activity as MemoListActivity
 
+        memoListActivity.memoList = MemoDao.getMemosByCategoryId(memoListActivity, memoListActivity.categoryId)
 
         fragmentMainMemoBinding.run {
             toolbarPwSetting.run {
