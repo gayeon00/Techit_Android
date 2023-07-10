@@ -77,6 +77,13 @@ class MainMemoFragment : Fragment() {
         inner class RecyclerViewHolder(rowBinding: RowMemoListBinding) :
             RecyclerView.ViewHolder(rowBinding.root) {
             val textViewRowMemoTitle = rowBinding.textViewRowMemoTitle
+
+            init {
+                rowBinding.root.setOnClickListener {
+                    memoListActivity.memo = memoListActivity.memoList[adapterPosition]
+                    memoListActivity.replaceFragment(MemoListActivity.SHOW_MEMO_FRAGMENT, true, true)
+                }
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {

@@ -25,6 +25,7 @@ class MemoListActivity : AppCompatActivity() {
     var categoryName = ""
 
     var memoList = listOf<Memo>()
+    var memo = Memo(-1,"","","")
 
     companion object {
         // Activity가 관리할 프래그먼트들의 이름

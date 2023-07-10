@@ -27,6 +27,15 @@ class MemoDao {
             db.close()
         }
 
+        fun deleteMemoByDate(context: Context, date: String) {
+            val db = DBHelper(context).writableDatabase
+            val whereClause = "$MEMO_COLUMN_DATE = ?"
+            val whereArgs = arrayOf(date)
+
+            db.delete(TABLE_MEMO, whereClause, whereArgs)
+            db.close()
+        }
+
         fun getAllMemos(context: Context): List<Memo> {
             val memoList = mutableListOf<Memo>()
             val query =
