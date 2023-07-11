@@ -13,15 +13,6 @@
         android:theme="@style/Theme.Android79_MiniProject02"
         tools:targetApi="31">
         <activity
-            android:name=".ui.memo.EditMemoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.memo.ShowMemoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.memo.AddMemoActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.memo.MemoListActivity"
             android:exported="false" />
         <activity
