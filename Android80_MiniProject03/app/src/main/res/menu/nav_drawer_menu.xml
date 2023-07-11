@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_clothing"
+        android:title="@string/title_clothing" />
+
+    <item
+        android:id="@+id/nav_frames"
+        android:title="@string/title_frames" />
+
+    <item
+        android:id="@+id/nav_gifts"
+        android:title="@string/title_gifts" />
+
+    <item
+        android:id="@+id/nav_stationary"
+        android:title="@string/title_stationary" />
+
+    <item
+        android:id="@+id/nav_cards"
+        android:title="@string/title_cards" />
+
+    <item
+        android:id="@+id/nav_deals"
+        android:title="@string/title_deals" />
+</menu>

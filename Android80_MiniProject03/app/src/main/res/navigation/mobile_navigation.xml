@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.test.android80_miniproject03.ui.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.test.android80_miniproject03.ui.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/navigation_favorite"
+        android:name="com.test.android80_miniproject03.ui.FavoriteFragment"
+        android:label="@string/title_favorite"
+        tools:layout="@layout/fragment_favorite" />
+
+    <fragment
+        android:id="@+id/navigation_cart"
+        android:name="com.test.android80_miniproject03.ui.CartFragment"
+        android:label="@string/title_cart"
+        tools:layout="@layout/fragment_cart" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.test.android80_miniproject03.ui.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/nav_clothing"
+        android:name="com.test.android80_miniproject03.ui.drawer.ClothingFragment"
+        android:label="@string/title_clothing"
+        tools:layout="@layout/fragment_clothing" />
+
+    <fragment
+        android:id="@+id/nav_frames"
+        android:name="com.test.android80_miniproject03.ui.drawer.FramesFragment"
+        android:label="@string/title_frames"
+        tools:layout="@layout/fragment_frames" />
+
+    <fragment
+        android:id="@+id/nav_gifts"
+        android:name="com.test.android80_miniproject03.ui.drawer.GiftsFragment"
+        android:label="@string/title_gifts"
+        tools:layout="@layout/fragment_gifts" />
+
+    <fragment
+        android:id="@+id/nav_stationary"
+        android:name="com.test.android80_miniproject03.ui.drawer.StationaryFragment"
+        android:label="@string/title_stationary"
+        tools:layout="@layout/fragment_stationary" />
+
+    <fragment
+        android:id="@+id/nav_cards"
+        android:name="com.test.android80_miniproject03.ui.drawer.CardsFragment"
+        android:label="@string/title_cards"
+        tools:layout="@layout/fragment_cards" />
+
+    <fragment
+        android:id="@+id/nav_deals"
+        android:name="com.test.android80_miniproject03.ui.drawer.DealsFragment"
+        android:label="@string/title_deals"
+        tools:layout="@layout/fragment_deals" />
+
+
+</navigation>

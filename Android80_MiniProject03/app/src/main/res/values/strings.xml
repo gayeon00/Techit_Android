@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Android80_MiniProject03</string>
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="title_clothing">Clothing</string>
+    <string name="title_frames">Frames</string>
+    <string name="title_gifts">Gifts</string>
+    <string name="title_stationary">Stationary</string>
+    <string name="title_cards">Cards</string>
+    <string name="title_deals">Deals</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
