@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_clothing"
+            android:title="@string/menu_clothing" />
+        <item
+            android:id="@+id/nav_frames"
+            android:title="@string/menu_frames" />
+        <item
+            android:id="@+id/nav_gifts"
+            android:title="@string/menu_gifts" />
+        <item
+            android:id="@+id/nav_stationary"
+            android:title="@string/menu_stationary" />
+        <item
+            android:id="@+id/nav_cards"
+            android:title="@string/menu_cards" />
+        <item
+            android:id="@+id/nav_deals"
+            android:title="@string/menu_deals" />
+    </group>
+</menu>
