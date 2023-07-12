@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.CategoryListActivity">
+    tools:context=".ui.memo.SelectMemoFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarPwSetting"
+        android:id="@+id/toolbarSelectMemo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:menu="@menu/category_list"
-        app:title="카테고리 목록" />
+        app:menu="@menu/delete"
+        app:navigationIcon="?attr/actionModeCloseDrawable"
+        app:title="메모 선택" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@
         android:paddingEnd="10dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewCategoryList"
+            android:id="@+id/recyclerViewSelectMemoList"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

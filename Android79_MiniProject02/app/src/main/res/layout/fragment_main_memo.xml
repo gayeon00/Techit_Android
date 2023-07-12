@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:menu="@menu/list"
+        app:menu="@menu/memo_list"
         app:navigationIcon="?attr/actionModeCloseDrawable"
         app:title="###카테고리 이름###" />
 

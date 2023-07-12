@@ -33,6 +33,7 @@ class MemoListActivity : AppCompatActivity() {
         const val ADD_MEMO_FRAGMENT = "AddMemoFragment"
         const val EDIT_MEMO_FRAGMENT = "EditMemoFragment"
         const val SHOW_MEMO_FRAGMENT = "ShowMemoFragment"
+        const val SELECT_MEMO_FRAGMENT = "SelectMemoFragment"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +66,10 @@ class MemoListActivity : AppCompatActivity() {
 
             SHOW_MEMO_FRAGMENT -> {
                 ShowMemoFragment()
+            }
+
+            SELECT_MEMO_FRAGMENT -> {
+                SelectMemoFragment()
             }
 
             else -> {

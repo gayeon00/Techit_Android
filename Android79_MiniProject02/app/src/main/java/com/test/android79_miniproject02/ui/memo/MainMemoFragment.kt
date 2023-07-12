@@ -51,8 +51,16 @@ class MainMemoFragment : Fragment() {
                 }
 
                 setOnMenuItemClickListener {
+                    when(it.itemId) {
+                        R.id.action_add_memo -> {
+                            memoListActivity.replaceFragment(MemoListActivity.ADD_MEMO_FRAGMENT, true, true)
+                        }
+                        R.id.action_select_memo -> {
+                            memoListActivity.replaceFragment(MemoListActivity.SELECT_MEMO_FRAGMENT, true, false)
+                        }
+                    }
                     //메모 추가
-                    memoListActivity.replaceFragment(MemoListActivity.ADD_MEMO_FRAGMENT, true, true)
+
                     false
                 }
             }
