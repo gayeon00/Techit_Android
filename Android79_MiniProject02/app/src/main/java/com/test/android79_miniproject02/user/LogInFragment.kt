@@ -45,7 +45,6 @@ class LogInFragment : Fragment() {
                 }
             }
         }
-        // Inflate the layout for this fragment
         return fragmentLogInBinding.root
     }
 
