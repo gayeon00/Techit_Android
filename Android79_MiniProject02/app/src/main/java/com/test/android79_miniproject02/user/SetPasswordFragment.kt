@@ -60,11 +60,12 @@ class SetPasswordFragment : Fragment() {
     }
 
     private fun savePassword(password: String) {
-        val filePath = mainActivity.dataDir.toString() + MainApplication.Constants.FILE_NAME
-        val fos = FileOutputStream(filePath)
-        val dos = DataOutputStream(fos)
+        val preferences = mainActivity.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
 
-        dos.writeUTF(password)
+        // 데이터 저장을 위한 객체를 이용해 데이터를 설정한다.
+        val editor = preferences.edit()
+        editor.putString("password", password)
+        editor.commit()
     }
 
 }

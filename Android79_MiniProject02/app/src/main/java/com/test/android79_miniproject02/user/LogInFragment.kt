@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.test.android79_miniproject02.MainActivity
-import com.test.android79_miniproject02.MainApplication
 import com.test.android79_miniproject02.databinding.FragmentLogInBinding
 import com.test.android79_miniproject02.ui.CategoryListActivity
-import java.io.DataInputStream
-import java.io.FileInputStream
 
 class LogInFragment : Fragment() {
     lateinit var fragmentLogInBinding: FragmentLogInBinding
@@ -26,7 +24,7 @@ class LogInFragment : Fragment() {
 
         fragmentLogInBinding.run {
             buttonLogIn.setOnClickListener {
-                val password = getPasswordFromFile()
+                val password = getPassword()
                 val inputPassword = editTextPasswordLogIn.text.toString()
 
                 if (password == inputPassword) {
@@ -51,12 +49,10 @@ class LogInFragment : Fragment() {
         return fragmentLogInBinding.root
     }
 
-    private fun getPasswordFromFile(): String? {
-        val filePath = mainActivity.dataDir.toString() + MainApplication.Constants.FILE_NAME
-        val fis = FileInputStream(filePath)
-        val dis = DataInputStream(fis)
+    private fun getPassword(): String? {
+        val pref = mainActivity.getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
 
-        return dis.readUTF()
+        return pref.getString("password", "")
     }
 
 }
