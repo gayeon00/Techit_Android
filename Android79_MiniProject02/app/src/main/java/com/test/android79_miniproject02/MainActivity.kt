@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction
 import com.test.android79_miniproject02.databinding.ActivityMainBinding
 import com.test.android79_miniproject02.user.LogInFragment
 import com.test.android79_miniproject02.user.SetPasswordFragment
-import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,10 +32,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkPwdSetting(): Boolean {
-        val filePath = dataDir.toString() + MainApplication.Constants.FILE_NAME
-        val file = File(filePath)
+        val pref = getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
 
-        return file.exists()
+        return pref.getString("password", "") != ""
     }
 
     fun replaceFragment(name: String, addToBackStack: Boolean, animate: Boolean) {
@@ -51,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             SET_PASSWORD_FRAGMENT -> {
                 SetPasswordFragment()
             }
+
             else -> {
                 Fragment()
             }
