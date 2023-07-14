@@ -2,6 +2,7 @@ package com.test.android79_miniproject02.ui.memo
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.SparseBooleanArray
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.test.android79_miniproject02.dao.MemoDao
 import com.test.android79_miniproject02.databinding.FragmentSelectMemoBinding
 import com.test.android79_miniproject02.databinding.RowSelectMemoBinding
-import com.test.android79_miniproject02.ui.CategoryListActivity
 
 class SelectMemoFragment : Fragment() {
     lateinit var fragmentSelectMemoBinding: FragmentSelectMemoBinding
@@ -29,6 +30,14 @@ class SelectMemoFragment : Fragment() {
                 setNavigationOnClickListener {
                     memoListActivity.removeFragment(MemoListActivity.SELECT_MEMO_FRAGMENT)
                 }
+
+                setOnMenuItemClickListener { 
+                    //선택한 메모들 삭제하기
+                    val adapter = recyclerViewSelectMemoList.adapter as RecyclerViewAdapter
+                    adapter.removeSelectedItems()
+                    memoListActivity.removeFragment(MemoListActivity.SELECT_MEMO_FRAGMENT)
+                    false
+                }
             }
             recyclerViewSelectMemoList.run {
                 adapter = RecyclerViewAdapter()
@@ -40,7 +49,7 @@ class SelectMemoFragment : Fragment() {
                         DividerItemDecoration.VERTICAL
                     )
                 )
-                addItemDecoration(CategoryListActivity.CustomItemDecorator(53))
+                addItemDecoration(CustomItemDecorator(53))
             }
         }
         // Inflate the layout for this fragment
@@ -49,10 +58,48 @@ class SelectMemoFragment : Fragment() {
 
     inner class RecyclerViewAdapter :
         RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>() {
+
+        private val selectedItems = SparseBooleanArray()
         inner class RecyclerViewHolder(rowBinding: RowSelectMemoBinding) :
             RecyclerView.ViewHolder(rowBinding.root) {
             val checkBox = rowBinding.checkBox
 
+            init {
+                checkBox.setOnClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        toggleSelection(position)
+                    }
+                }
+            }
+
+        }
+
+        // 선택된 항목을 selectedItems에 추가 또는 제거하는 메서드
+        fun toggleSelection(position: Int) {
+            if (selectedItems.get(position, false)) {
+                selectedItems.delete(position)
+            } else {
+                selectedItems.put(position, true)
+            }
+        }
+        
+        fun removeSelectedItems() {
+            val selectedPositions  = getSelectedPositions().reversed() // 역순으로 제거해야 Index 오류가 발생하지 않습니다.
+
+            for(position in selectedPositions) {
+                MemoDao.deleteMemoByDate(memoListActivity,memoListActivity.memoList[position].date)
+            }
+
+            selectedItems.clear()
+        }
+
+        private fun getSelectedPositions(): List<Int> {
+            val positions = mutableListOf<Int>()
+            for (i in 0 until selectedItems.size()) {
+                positions.add(selectedItems.keyAt(i))
+            }
+            return positions
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
