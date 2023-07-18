@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 모든 단말기가 이 경로를 외부 저장소로 사용하고 있음 -->
+    <external-path
+        name="storage/emulated/0"
+        path="."/>
+</paths>
